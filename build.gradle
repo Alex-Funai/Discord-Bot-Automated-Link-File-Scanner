@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+group 'funai'
+version 'alpha1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.discord4j:discord4j-core:3.1.5'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime
+    implementation group: 'org.apache.httpcomponents', name: 'httpmime', version: '4.3-beta1'
+
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.3.1'
+
+}
+
+test {
+    useJUnitPlatform()
+}
