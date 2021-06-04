@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="org.apache.httpcomponents:httpmime:4.3-beta1" type="repository">
+    <properties maven-id="org.apache.httpcomponents:httpmime:4.3-beta1" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/httpmime-4.3-beta1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpclient-4.3-beta1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpcore-4.3-beta1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-logging-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-codec-1.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

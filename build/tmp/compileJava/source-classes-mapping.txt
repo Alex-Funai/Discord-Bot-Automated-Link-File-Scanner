@@ -9,8 +9,8 @@ virustotal/virustotal/dto/VirusScanInfo.java
  virustotal.virustotal.dto.VirusScanInfo
 virustotal/virustotal/dto/DomainReport.java
  virustotal.virustotal.dto.DomainReport
-discord/Scanners.java
- discord.Scanners
+virustotal/virustotal/dto/FileScanReport.java
+ virustotal.virustotal.dto.FileScanReport
 virustotal/virustotal/dto/IPAddressReport.java
  virustotal.virustotal.dto.IPAddressReport
 virustotal/virustotalv2/VirustotalPublicV2.java
@@ -33,8 +33,8 @@ virustotal/virustotalv2/VirustotalStatus.java
  virustotal.virustotalv2.VirustotalStatus
 virustotal/virustotal/exception/InvalidArguentsException.java
  virustotal.virustotal.exception.InvalidArguentsException
-discord/Listeners.java
- discord.Listeners
+virustotal/net/model/HttpStatus.java
+ virustotal.net.model.HttpStatus
 virustotal/virustotal/exception/UnauthorizedAccessException.java
  virustotal.virustotal.exception.UnauthorizedAccessException
 virustotal/virustotalv2/VirustotalPublicV2Impl.java
@@ -60,7 +60,7 @@ virustotal/virustotal/exception/QuotaExceededException.java
  virustotal.virustotal.exception.QuotaExceededException
 virustotal/virustotal/exception/APIKeyNotFoundException.java
  virustotal.virustotal.exception.APIKeyNotFoundException
-virustotal/net/model/HttpStatus.java
- virustotal.net.model.HttpStatus
-virustotal/virustotal/dto/FileScanReport.java
- virustotal.virustotal.dto.FileScanReport
+discord/Scanners.java
+ discord.Scanners
+discord/Listeners.java
+ discord.Listeners

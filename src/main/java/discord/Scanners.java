@@ -1,6 +1,7 @@
 package discord;
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Message;
+import discord4j.core.object.entity.User;
 import discord4j.core.object.entity.channel.MessageChannel;
 import discord4j.rest.util.Color;
 import virustotal.virustotal.dto.FileScanReport;
@@ -11,10 +12,14 @@ import virustotal.virustotal.exception.APIKeyNotFoundException;
 import virustotal.virustotalv2.VirusTotalConfig;
 import virustotal.virustotalv2.VirustotalPublicV2Impl;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * [0]
@@ -29,10 +34,6 @@ public class Scanners  {
      * [B]
      * scanURL() :: <br>
      * Scans an array of urls for general virustotal information. <br><br>
-     *
-     * @param Urls an array of urls to scan.
-     * @return string of the scaninfo.
-     * @implSpec <ul>
      * <li>Handle multiple Urls</li>
      *
      * </ul>
@@ -45,8 +46,7 @@ public class Scanners  {
 
             Snowflake snowflake = message.getId();
             message.delete(snowflake.asString()).subscribe();
-
-            String[] urls = message.getContent().split(" ");
+            String [] urls = (message.getContent()).split(" ");
 
             FileScanReport[] reports = virusTotalRef.getUrlScanReport(urls, false);
 
@@ -55,34 +55,42 @@ public class Scanners  {
                     System.out.println("Verbose Msg :\t" + report.getVerboseMessage());
                     continue;
                 }
-                String IMAGE_URL = null; // replace with iamge url
+                URL IMAGE_URL = new File("D:\\Projects\\dbvt\\vtimage.png").toURI().toURL();
 
                 final MessageChannel channel = message.getChannel().block();
                 assert channel != null;
                 channel.createEmbed(spec ->
                         spec.setColor(Color.RED)
-                        .setAuthor("setAuthor", "null", IMAGE_URL)
+                        .setAuthor( "URL Scan Report :", null, null)
+/*
                         .setImage(IMAGE_URL)
+*/
                         .setTitle(Arrays.toString(urls))
                         .setUrl(report.getResource())
                         .setDescription("" +
-                                "MD5: \t" + report.getMd5() + "\n" +
-                                "PermaLink: \t" + report.getPermalink() + "\n" +
-                                "Scan Date: \t" + report.getScanDate() + "\n" +
-                                "Scan Id: \t" + report.getScanId() + "\n" +
-                                "SHA1: \t" + report.getSha1() + "\n" +
-                                "SHA256: \t" + report.getSha256() + "\n" +
-                                "Verbose Message: \t" + report.getVerboseMessage() + "\n" +
-                                "Response Code: \t" + report.getResponseCode() + "\n" +
-                                "Positives: \t" + report.getPositives() + "\n" +
-                                "Total: \t " + report.getTotal()
+                                        "**Report Link:  ** \t" + report.getPermalink() + "\n" +
+                                        "**Scan Date:  ** \t" + report.getScanDate() + "\n" +
+/*                                        "***Scan Id : ***\t" + report.getScanId() + "\n" +*/
+/*                                        "MD5: \t" + report.getMd5() + "\n" +
+                                        "SHA1: \t" + report.getSha1() + "\n" +
+                                        "SHA256: \t" + report.getSha256() + "\n" +*/
+                                        "\t" + report.getVerboseMessage() + "\n" /*+
+                                        "Response Code: \t" + report.getResponseCode() + "\n" +
+                                        "Positives: \t" + report.getPositives() + "\n" +
+                                        "Total: \t " + report.getTotal()*/
                                 )
 
-                        .addField("addField", "inline = true", true)
-                        .addField("addField", "inline=true", true)
-                        .addField("addField", "inline=true", true)
-                        .setThumbnail(IMAGE_URL)
-                        .setFooter("VirusTotal.com", IMAGE_URL).setTimestamp(Instant.now())
+                                .addField("[Hash]",
+                                "SHA256 : \t" + report.getSha256() + "\n" +
+                                "SHA1 : \t" + report.getSha1() + "\n" +
+                                "MD5 : \t" + report.getMd5(), true)
+
+                                .addField("[Statistics]",
+                                "Malicious Flags : \t" + report.getPositives() + "\n" +
+                                "Databases Referenced : \t" + report.getTotal() + "\n" +
+                                "Response Code : \t" + report.getResponseCode(), true)
+
+                        .setFooter("Scan ID: \t" + report.getScanId(), null).setTimestamp(Instant.now())
                 ).block();
 
                 System.out.println("MD5 :\t" + report.getMd5());
