@@ -15,5 +15,10 @@ public interface Converter {
         String mdahex = DigestUtils.md5Hex(URL);
         return convert;
     }*/
+
+    class String  {
+
+
+    }
 }
 

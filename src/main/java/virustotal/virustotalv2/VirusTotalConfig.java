@@ -13,8 +13,8 @@ public final class VirusTotalConfig {
     private String virusTotalAPIKey;
     private static VirusTotalConfig configInstance = null;
 
-    public VirusTotalConfig() {
-        virusTotalAPIKey = System.getenv("VIRUS_TOKEN");
+    private VirusTotalConfig() {
+        virusTotalAPIKey = System.getenv("VIRUS_TOKEN");    // key here
     }
 
     public static VirusTotalConfig getConfigInstance() {
@@ -35,5 +35,4 @@ public final class VirusTotalConfig {
     public void setVirusTotalAPIKey(String virusTotalAPIKey) {
         this.virusTotalAPIKey = virusTotalAPIKey;
     }
-
 }

@@ -2,6 +2,10 @@ package discord;
 
 import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
+import virustotal.virustotal.exception.APIKeyNotFoundException;
+import virustotal.virustotalv2.VirusTotalConfig;
+import virustotal.virustotalv2.VirustotalPublicV2;
+import virustotal.virustotalv2.VirustotalPublicV2Impl;
 
 
 /**
@@ -16,46 +20,30 @@ import discord4j.core.GatewayDiscordClient;
  *         <i> (example:  private final String TOKEN = "$DISCORD_TOKEN"). </i> </li>
  * </ol>
  */
+public interface Authenticator {
 
-interface Authenticator {
+    DiscordClient client = DiscordClient.create(System.getenv("DISCORD_TOKEN"));
+    GatewayDiscordClient gateway = client.login().block();
 
-    /**
-     * [A] DISCORD_TOKEN :: <br>
-     * sets discord api-token for the bot to use, and attempts to privatize user's key via encapsulation.
-     */
-      final String DISCORD_TOKEN = System.getenv("DISCORD_TOKEN");
-      final String VIRUS_TOKEN = System.getenv("VIRUS_TOKEN");
-    /**
-     * [B]
-     * DiscordClient client :: <br>
-     * initialize an authenticated bot, that uses an api-token.
-     */
-    final DiscordClient client = DiscordClient.create(DISCORD_TOKEN);
+    default VirustotalPublicV2 vT() throws APIKeyNotFoundException {
+        VirusTotalConfig.getConfigInstance().setVirusTotalAPIKey(System.getenv("VIRUS_TOKEN"));
+        return new VirustotalPublicV2Impl();
+    }
 
-    /**
-     * [C]
-     * GateweayDiscordClient gateway :: <br>
-     * initialize a discord-network-gateway client, to connect with discord's services.
-     */
-    final GatewayDiscordClient gateway = client.login().block();
 
-}
+    public static void main(String[] args) throws APIKeyNotFoundException {
 
-    /**
-     * [D] getStatus() :: <br>
-     * sanity check bot services are established properly, by printing it's username to the client-host terminal -
-     * only-if/after discord (gateway + cilent) services are authenticated and connected.
-     */
-/*    public void getStatus() {
+        Listeners listeners = new Listeners();
+        listeners.listenForPing();
+        listeners.listenForUrls();
+        listeners.listenForAttachments();
 
         assert gateway != null;
-        gateway.getEventDispatcher().on(ReadyEvent.class)
-                .subscribe(event -> {
-                    final User self = event.getSelf();
-                    System.out.println(String.format(
-                            "Logged in as %s%s", self.getUsername(), self.getDiscriminator()
-                    ));
-                });*/
+        gateway.onDisconnect().block();
+
+
+    }
+}
 
     /**
      * [E]

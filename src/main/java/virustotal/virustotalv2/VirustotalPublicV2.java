@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * @author kdkanishka@gmail.com
  */
-public interface    VirustotalPublicV2 {
+public interface VirustotalPublicV2 {
 
     String URI_VT2_FILE_SCAN = "https://www.virustotal.com/vtapi/v2/file/scan";
     String URI_VT2_RESCAN = "https://www.virustotal.com/vtapi/v2/file/rescan";

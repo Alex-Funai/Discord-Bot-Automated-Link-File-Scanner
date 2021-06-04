@@ -1,12 +1,20 @@
 package discord;
-
-import virustotal.virustotal.dto.ScanInfo;
+import discord4j.common.util.Snowflake;
+import discord4j.core.object.entity.Message;
+import discord4j.core.object.entity.channel.MessageChannel;
+import discord4j.rest.util.Color;
+import virustotal.virustotal.dto.FileScanReport;
+import virustotal.virustotal.dto.VirusScanInfo;
 import virustotal.virustotal.exception.UnauthorizedAccessException;
-import virustotal.virustotalv2.VirusTotalConfig;
 import virustotal.virustotalv2.VirustotalPublicV2;
+import virustotal.virustotal.exception.APIKeyNotFoundException;
+import virustotal.virustotalv2.VirusTotalConfig;
 import virustotal.virustotalv2.VirustotalPublicV2Impl;
 
 import java.io.UnsupportedEncodingException;
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.Map;
 
 /**
  * [0]
@@ -14,68 +22,101 @@ import java.io.UnsupportedEncodingException;
  * class for defining and managing virustotal scans that discord4j can utilize..
  * @see > set virustotal api-token/key in virustotalv2.VirusTotalConfig/
  */
-public class Scanners {
-
-    /**[A]
-     * API_KEY :: <br>
-     * initialize virustotal api-key/token through virustotal services configurator.
-     */
-    private static final String API_KEY = VirusTotalConfig.getConfigInstance().getVirusTotalAPIKey();
+public class Scanners  {
 
 
     /**
      * [B]
-     * String listenForUrls() :: <br>
+     * scanURL() :: <br>
      * Scans an array of urls for general virustotal information. <br><br>
+     *
      * @param Urls an array of urls to scan.
      * @return string of the scaninfo.
-     * @implSpec
-     * <ul>
-     *     <li>Handle multiple Urls</li>
+     * @implSpec <ul>
+     * <li>Handle multiple Urls</li>
      *
      * </ul>
-     *
-     *
      */
-    public static String scanUrl(String[] Urls) {
+    public static void scanUrl(Message message) {
+
         try {
-            VirusTotalConfig.getConfigInstance().setVirusTotalAPIKey(API_KEY);
-            VirustotalPublicV2 virusTotal = new VirustotalPublicV2Impl();
-            ScanInfo[] scanInfoArr = virusTotal.scanUrls(Urls);
+            VirusTotalConfig.getConfigInstance().setVirusTotalAPIKey(System.getenv("VIRUS_TOKEN"));
+            VirustotalPublicV2 virusTotalRef = new VirustotalPublicV2Impl();
 
-            for (ScanInfo scanInformation : scanInfoArr) {
-                System.out.println("___SCAN INFORMATION___");
-                System.out.println("MD5 :\t" + scanInformation.getMd5());
-                System.out.println("Perma Link :\t" + scanInformation.getPermalink());
-                System.out.println("Resource :\t" + scanInformation.getResource());
-                System.out.println("Scan Date :\t" + scanInformation.getScanDate());
-                System.out.println("Scan Id :\t" + scanInformation.getScanId());
-                System.out.println("SHA1 :\t" + scanInformation.getSha1());
-                System.out.println("SHA256 :\t" + scanInformation.getSha256());
-                System.out.println("Verbose Msg :\t" + scanInformation.getVerboseMessage());
-                System.out.println("Response Code :\t" + scanInformation.getResponseCode());
-                System.out.println("done.");
+            Snowflake snowflake = message.getId();
+            message.delete(snowflake.asString()).subscribe();
 
-                return "SCAN RESULTS:" + "\n"
-                        + "MD5: " + scanInformation.getMd5() + "\n"
-                        + "PermaLink: " + scanInformation.getPermalink() + "\n"
-                        + "Resource: " + scanInformation.getResource() + "\n"
-                        + "Scan Date: " + scanInformation.getScanDate() + "\n"
-                        + "Scan Id: " + scanInformation.getScanId() + "\n"
-                        + "SHA1: " + scanInformation.getSha1() + "\n"
-                        + "SHA256: " + scanInformation.getSha1() + "\n"
-                        + "Verbose Message: " + scanInformation.getVerboseMessage() + "n"
-                        + "Response Code: " + scanInformation.getResponseCode() + "\n";
+            String[] urls = message.getContent().split(" ");
+
+            FileScanReport[] reports = virusTotalRef.getUrlScanReport(urls, false);
+
+            for (FileScanReport report : reports) {
+                if(report.getResponseCode()==0){
+                    System.out.println("Verbose Msg :\t" + report.getVerboseMessage());
+                    continue;
+                }
+                String IMAGE_URL = null; // replace with iamge url
+
+                final MessageChannel channel = message.getChannel().block();
+                assert channel != null;
+                channel.createEmbed(spec ->
+                        spec.setColor(Color.RED)
+                        .setAuthor("setAuthor", "null", IMAGE_URL)
+                        .setImage(IMAGE_URL)
+                        .setTitle(Arrays.toString(urls))
+                        .setUrl(report.getResource())
+                        .setDescription("" +
+                                "MD5: \t" + report.getMd5() + "\n" +
+                                "PermaLink: \t" + report.getPermalink() + "\n" +
+                                "Scan Date: \t" + report.getScanDate() + "\n" +
+                                "Scan Id: \t" + report.getScanId() + "\n" +
+                                "SHA1: \t" + report.getSha1() + "\n" +
+                                "SHA256: \t" + report.getSha256() + "\n" +
+                                "Verbose Message: \t" + report.getVerboseMessage() + "\n" +
+                                "Response Code: \t" + report.getResponseCode() + "\n" +
+                                "Positives: \t" + report.getPositives() + "\n" +
+                                "Total: \t " + report.getTotal()
+                                )
+
+                        .addField("addField", "inline = true", true)
+                        .addField("addField", "inline=true", true)
+                        .addField("addField", "inline=true", true)
+                        .setThumbnail(IMAGE_URL)
+                        .setFooter("VirusTotal.com", IMAGE_URL).setTimestamp(Instant.now())
+                ).block();
+
+                System.out.println("MD5 :\t" + report.getMd5());
+                System.out.println("Perma link :\t" + report.getPermalink());
+                System.out.println("Resource :\t" + report.getResource());
+                System.out.println("Scan Date :\t" + report.getScanDate());
+                System.out.println("Scan Id :\t" + report.getScanId());
+                System.out.println("SHA1 :\t" + report.getSha1());
+                System.out.println("SHA256 :\t" + report.getSha256());
+                System.out.println("Verbose Msg :\t" + report.getVerboseMessage());
+                System.out.println("Response Code :\t" + report.getResponseCode());
+                System.out.println("Positives :\t" + report.getPositives());
+                System.out.println("Total :\t" + report.getTotal());
+
+                Map<String, VirusScanInfo> scans = report.getScans();
+                for (String key : scans.keySet()) {
+                    VirusScanInfo virusInfo = scans.get(key);
+                    System.out.println("Scanner : " + key);
+                    System.out.println("\t\t Result : " + virusInfo.getResult());
+                    System.out.println("\t\t Update : " + virusInfo.getUpdate());
+                    System.out.println("\t\t Version :" + virusInfo.getVersion());
+                }
             }
 
-        } catch ( UnsupportedEncodingException ex ) {
+        } catch (APIKeyNotFoundException ex) {
+            System.err.println("API Key not found! " + ex.getMessage());
+        } catch (UnsupportedEncodingException ex) {
             System.err.println("Unsupported Encoding Format!" + ex.getMessage());
-        } catch ( UnauthorizedAccessException ex ) {
+        } catch (UnauthorizedAccessException ex) {
             System.err.println("Invalid API Key " + ex.getMessage());
-        } catch ( Exception ex ) {
+        } catch (Exception ex) {
             System.err.println("Something Bad Happened! " + ex.getMessage());
         }
-        return null;
     }
+
 }
 

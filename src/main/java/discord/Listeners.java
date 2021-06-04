@@ -1,17 +1,18 @@
 package discord;
 
+import com.sun.tools.javac.Main;
 import discord4j.common.util.Snowflake;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.MessageChannel;
 import java.net.URL;
-
 /**
  * [0]
  * Bot_Events :: <br>
  * domain class for defining and managing discord-gateway-events.
  */
-public class Events implements Authenticator {
+public class Listeners implements Authenticator {
+
 
     /**
      * isURL() :: <br>
@@ -20,13 +21,15 @@ public class Events implements Authenticator {
      * @param Url a url of type string.
      * @return boolean value == url validation.
      */
-     boolean isURL (String Url) {
+    public static boolean isURL(String Url) {
 
         try {
             URL url_intake = new URL(Url);
             url_intake.toURI();
             return true;
-        } catch (Exception e) { return false; }
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 
@@ -41,7 +44,7 @@ public class Events implements Authenticator {
      *     <li> Defines the message's response as, "pong", and then executes sending via .block() </li>
      * </ol>
      */
-    void listenForPing() {
+       void listenForPing() {
         assert gateway != null;
         gateway.on(MessageCreateEvent.class).subscribe(event -> {
             final Message message = event.getMessage();
@@ -71,12 +74,13 @@ public class Events implements Authenticator {
         assert gateway != null;
         gateway.getEventDispatcher().on(MessageCreateEvent.class).subscribe(event -> {
             Message message = event.getMessage();
-
-            Snowflake messageSnowflake = message.getId();
             message.getContent();
 
             if (isURL(message.getContent())) {
-                message.delete(messageSnowflake.asString()).subscribe();
+                Scanners.scanUrl(message);
+
+
+/*                message.delete(messageSnowflake.asString()).subscribe();
                 MessageChannel channel = message.getChannel().block();
                 assert channel != null;
                 channel.createMessage("" + "\n"
@@ -89,7 +93,7 @@ public class Events implements Authenticator {
 
                 String[] urls = {message.getContent()};
                 String results = Scanners.scanUrl(urls);
-                channel.createMessage("```" + results + "```").block();
+                channel.createMessage("```" + results + "```").block();*/
             }
         });
     }
@@ -122,3 +126,4 @@ public class Events implements Authenticator {
         });
     }
 }
+
