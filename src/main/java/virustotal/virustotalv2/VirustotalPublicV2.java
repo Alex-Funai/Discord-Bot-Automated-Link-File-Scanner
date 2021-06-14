@@ -11,7 +11,6 @@ import virustotal.virustotal.exception.UnauthorizedAccessException;
 
 import java.io.File;
 import java.io.IOException;
-
 /**
  * @author kdkanishka@gmail.com
  */

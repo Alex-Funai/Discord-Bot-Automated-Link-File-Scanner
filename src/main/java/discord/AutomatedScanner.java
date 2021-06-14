@@ -1,11 +1,17 @@
 package discord;
+
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.User;
+import discord4j.core.object.entity.channel.Channel;
 import discord4j.core.object.entity.channel.MessageChannel;
+import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.rest.util.Color;
+import reactor.core.publisher.Mono;
 import virustotal.virustotal.dto.FileScanReport;
 import virustotal.virustotal.dto.VirusScanInfo;
+import virustotal.virustotal.exception.InvalidArguentsException;
+import virustotal.virustotal.exception.QuotaExceededException;
 import virustotal.virustotal.exception.UnauthorizedAccessException;
 import virustotal.virustotalv2.VirustotalPublicV2;
 import virustotal.virustotal.exception.APIKeyNotFoundException;
@@ -13,13 +19,14 @@ import virustotal.virustotalv2.VirusTotalConfig;
 import virustotal.virustotalv2.VirustotalPublicV2Impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.time.Instant;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Optional;
+
+import static com.google.gson.internal.bind.TypeAdapters.URL;
+
 
 /**
  * [0]
@@ -27,8 +34,7 @@ import java.util.Optional;
  * class for defining and managing virustotal scans that discord4j can utilize..
  * @see > set virustotal api-token/key in virustotalv2.VirusTotalConfig/
  */
-public class Scanners  {
-
+public interface AutomatedScanner extends Processor {
 
     /**
      * [B]
@@ -38,59 +44,90 @@ public class Scanners  {
      *
      * </ul>
      */
-    public static void scanUrl(Message message) {
+      static void scanUrls(Message message) {
+
+          String [] urls = (message.getContent()).split(" ");
 
         try {
-            VirusTotalConfig.getConfigInstance().setVirusTotalAPIKey(System.getenv("VIRUS_TOKEN"));
+            VirusTotalConfig
+                    .getConfigInstance()
+                    .setVirusTotalAPIKey ( System.getenv( "VIRUS_TOKEN" ) );
+
             VirustotalPublicV2 virusTotalRef = new VirustotalPublicV2Impl();
 
             Snowflake snowflake = message.getId();
-            message.delete(snowflake.asString()).subscribe();
-            String [] urls = (message.getContent()).split(" ");
+
+            message.delete (
+                    snowflake.asString()
+            ).subscribe();
+
 
             FileScanReport[] reports = virusTotalRef.getUrlScanReport(urls, false);
 
-            for (FileScanReport report : reports) {
-                if(report.getResponseCode()==0){
-                    System.out.println("Verbose Msg :\t" + report.getVerboseMessage());
-                    continue;
+
+            for ( FileScanReport report : reports ) {
+
+                if ( report.getResponseCode() == 0 ) {
+                    System.out.println ( "Verbose Msg :\t" + report.getVerboseMessage() ); continue;
                 }
-                URL IMAGE_URL = new File("D:\\Projects\\dbvt\\vtimage.png").toURI().toURL();
 
-                final MessageChannel channel = message.getChannel().block();
+                MessageChannel channel = message
+                        .getChannel()
+                        .block();
+
                 assert channel != null;
-                channel.createEmbed(spec ->
-                        spec.setColor(Color.RED)
-                        .setAuthor( "URL Scan Report :", null, null)
-/*
-                        .setImage(IMAGE_URL)
-*/
-                        .setTitle(Arrays.toString(urls))
-                        .setUrl(report.getResource())
-                        .setDescription("" +
-                                        "**Report Link:  ** \t" + report.getPermalink() + "\n" +
-                                        "**Scan Date:  ** \t" + report.getScanDate() + "\n" +
-/*                                        "***Scan Id : ***\t" + report.getScanId() + "\n" +*/
-/*                                        "MD5: \t" + report.getMd5() + "\n" +
-                                        "SHA1: \t" + report.getSha1() + "\n" +
-                                        "SHA256: \t" + report.getSha256() + "\n" +*/
-                                        "\t" + report.getVerboseMessage() + "\n" /*+
-                                        "Response Code: \t" + report.getResponseCode() + "\n" +
-                                        "Positives: \t" + report.getPositives() + "\n" +
-                                        "Total: \t " + report.getTotal()*/
-                                )
 
-                                .addField("[Hash]",
-                                "SHA256 : \t" + report.getSha256() + "\n" +
-                                "SHA1 : \t" + report.getSha1() + "\n" +
-                                "MD5 : \t" + report.getMd5(), true)
+                channel.createEmbed ( spec -> spec
 
-                                .addField("[Statistics]",
-                                "Malicious Flags : \t" + report.getPositives() + "\n" +
-                                "Databases Referenced : \t" + report.getTotal() + "\n" +
-                                "Response Code : \t" + report.getResponseCode(), true)
+                        .setColor (
+                                Processor.getMessageColor (report)
+                        )
 
-                        .setFooter("Scan ID: \t" + report.getScanId(), null).setTimestamp(Instant.now())
+                        .setAuthor(
+                                "set author", null, null
+                        )
+
+                        .setImage(
+                                "resources/virustotal-avatar.png"
+                        )
+
+                        .setTitle(
+                                Arrays.toString( urls )
+                        )
+
+                        .setUrl(
+                                report.getResource()
+                        )
+
+                        .setDescription(
+                                ""
+                                + "** Report Link: ** \t" + report.getPermalink() + "\n"
+                                + "** Scan Date: ** \t" + report.getScanDate() + "\n"
+                                + "** Verbose Msg: ** \t" + report.getVerboseMessage() + "\n"
+                        )
+
+                        .addField(
+                                "[Hashes]" ,
+                                "SHA256 : \t" + report.getSha256() + "\n"
+                                    + "SHA1 : \t" + report.getSha1() + "\n"
+                                    + "MD5 : \t" + report.getMd5(), true
+                        )
+
+                        .addField(
+                                "[Statistics]",
+                                "Malicious Flags : \t" + report.getPositives() + "\n"
+                                    + "Databases Referenced : \t" + report.getTotal() + "\n"
+                                    + "Response Code : \t" + report.getResponseCode(), true
+                        )
+
+                        .setFooter(
+                                "Scan ID: \t" + report.getScanId(),"resources/virustotal-avatar.png"
+
+                        )
+
+                        .setTimestamp(
+                                Instant.now()
+                        )
                 ).block();
 
                 System.out.println("MD5 :\t" + report.getMd5());
@@ -125,6 +162,6 @@ public class Scanners  {
             System.err.println("Something Bad Happened! " + ex.getMessage());
         }
     }
-
 }
+
 
