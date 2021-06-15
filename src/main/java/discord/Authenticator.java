@@ -26,14 +26,12 @@ import virustotal.virustotalv2.VirustotalPublicV2Impl;
  */
 public interface Authenticator extends Processor {
 
-
     DiscordClient client = DiscordClient.create (
             System.getenv ( "DISCORD_TOKEN" ) );
 
     GatewayDiscordClient gateway = client
             .login()
             .block();
-
 
     default VirustotalPublicV2 vT() throws APIKeyNotFoundException {
 
@@ -45,19 +43,25 @@ public interface Authenticator extends Processor {
         return new VirustotalPublicV2Impl();
     }
 
-
     /**
-     * main ::
-     * Run this class to initialize the bot, gateway, and event listeners for virustotal stuff.
+     * main ::<br>
+     * The main method will create and log the discord bot in through gateway and client services, then activate it
+     * into a server. The main method needs to contain the interfaces and methods that the bot should use, otherwise
+     * it will only login. This will be solved by using a bridge interface later that encapsulates each interfaces methods
+     * into callable objects.
      * @param args
      */
     public static void main ( String[] args ) {
 
-        Commands.PingPong();
-        EventListener.listenForUrls();
-        EventListener.listenForAttachments();
-
         assert gateway != null;
+
+        /***** Activate the Commands interface, to direct the bot which commands and actions it's allowed to react to. *****/
+        Commands.PingPong();
+
+        /***** Activate the EventListener interface, to direct the bot which passive events and actions it's allowed to react for *****/
+        EventListener.ListenForUrls();
+        EventListener.ListenForAttachments();
+
 
 
 

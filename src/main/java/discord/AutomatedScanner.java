@@ -29,19 +29,17 @@ import static com.google.gson.internal.bind.TypeAdapters.URL;
 
 
 /**
- * [0]
- * Scanners :: <br>
- * class for defining and managing virustotal scans that discord4j can utilize..
- * @see > set virustotal api-token/key in virustotalv2.VirusTotalConfig/
+ * AutomatedScanner :: <br>
+ * AutomatedScanner is an interface that manages creating scan reports, and then creating an embedded discord
+ * message that entails the report results. The results are retrieved from VirusTotal's database, but will likely
+ * include data from otx.alienvault later through development.
  */
 public interface AutomatedScanner extends Processor {
 
     /**
-     * [B]
-     * scanURL() :: <br>
-     * Scans an array of urls for general virustotal information. <br><br>
-     * <li>Handle multiple Urls</li>
-     *
+     * ScanUrls() :: <br>
+     * ScanUrls will scan an array of urls and create an embedded discord message containing relevant information
+     * retrieved from VirusTotal's database.
      * </ul>
      */
       static void scanUrls(Message message) {

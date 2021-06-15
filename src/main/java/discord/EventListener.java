@@ -9,40 +9,18 @@ import java.net.URL;
 
 
 /**
- * [0]
- * Listeners :: <br>
- * Listeners is a domain class for defining and managing discord-gateway listener-events.
+ * EventListener :: <br>
+ * EventListener is an interface for managing discord's gateway listener events. The EventListener interface
+ * contains actions the discord bot will execute, as it passively listens to the channels within it's scope. EventListener
+ * is a reactive interface that only executes it's method's independently if their execution requirements are met.
  */
-public interface EventListener extends Authenticator, AutomatedScanner {
-
-
-    /**
-     * isURL() :: <br>
-     * validates a url string by definition of toURI(). <br><br>
-     * @implNote should refactor parameter for array, list, stack, or queue.
-     * @param Url a url of type string.
-     * @return boolean value == url validation.
-     */
-    static boolean isURL(String Url) {
-
-        try {
-
-            URL url_intake = new URL(Url);
-
-            url_intake.toURI();
-
-            return true;
-
-        } catch (Exception e) { return false; }
-    }
-
-
-
+public interface EventListener extends Authenticator, AutomatedScanner, Processor {
 
     /**
-     * listenForUrls() :: <br>
-     * listener event for URL(s) in any message's content. <br><br>
-     * @implNote
+     * ListenForUrls() :: <br>
+     * The ListenForUrls method is a reactive discord gateway listener, for determining if a URL is present in any message
+     * that is passed by the discord bot's scope.<br><br>
+     * @see
      * <ol>
      *     <li> Create a gateway-listener-event for listening to all guild messages. </li>
      *     <li> Store the messageid (snowflake), and scan messages' content. </li>
@@ -52,7 +30,7 @@ public interface EventListener extends Authenticator, AutomatedScanner {
      *     <li> Print virustotal url scanners returned results.</li>
      * </ol>
      */
-    static void listenForUrls() {
+    static void ListenForUrls() {
 
         assert gateway != null;
 
@@ -66,7 +44,7 @@ public interface EventListener extends Authenticator, AutomatedScanner {
 
                 Snowflake snowflake = message.getId();
 
-                if ( isURL ( message.getContent() ) ) {
+                if ( Processor.isURL ( message.getContent() ) ) {
 
                     AutomatedScanner.scanUrls( message );
                 }
@@ -74,11 +52,11 @@ public interface EventListener extends Authenticator, AutomatedScanner {
             });
      }
 
-
     /**
-     * listenForAttachments() :: <br>
-     * gateway-listener-event for hearing and scanning message-attachments. <br><br>
-     * @implNote asdasdasdasd
+     * ListenForAttachments() :: <br>
+     * The ListenForAttachments method is a reactive gateway listener event that activates when the bot determines an attachment
+     * has been passed through it's scope.
+     * @see
      * <ol>
      *     <li> Listen to guild messages, and reference snowflake flags with an integer comparator to verify
      *          if a message contains any attachments.
@@ -89,8 +67,7 @@ public interface EventListener extends Authenticator, AutomatedScanner {
      *     <li> If/else || switch(case) --> for either allowing link, or to some extent supressing it with an explanation messeage.</li>
      * </ol>
      */
-    static void listenForAttachments() {
-
+    static void ListenForAttachments() {
 
         assert gateway != null;
 
@@ -101,18 +78,19 @@ public interface EventListener extends Authenticator, AutomatedScanner {
 
                     Message message = event.getMessage();
 
-                    if (message.getAttachments().size() > 0) {
+                    if ( message.getAttachments().size() > 0 ) {
 
-                        System.out.println("The test passes and it can tell there are attachments.");
+                        System.out.println ( "The test passes and it can tell there are attachments." );
 
-                        MessageChannel channel = message.getChannel().block();
+                        MessageChannel channel = message
+                                .getChannel()
+                                .block();
 
                         assert channel != null;
 
                         channel
-                                .createMessage (
-                                        "One moment...Scanning file integrity via VirusTotal.com"
-                                ).block();
+                                .createMessage ("One moment...Scanning file integrity via VirusTotal.com")
+                                .block();
                     }
                 });
     }

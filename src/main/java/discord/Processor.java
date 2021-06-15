@@ -16,9 +16,23 @@ import static discord.Authenticator.gateway;
 
 public interface Processor {
 
+    /**
+     * isURL() :: <br>
+     * A method that validates a url string by definition of toURI(). <br>
+     * @param Url intakes a string object that's value represents a URI or URL.
+     * @return true, if the method's intake string is a valid Url || false, if not.
+     */
+    static boolean isURL(String Url) {
 
-    public static void main(String... args) throws Exception {
+        try {
 
+            URL url_intake = new URL(Url);
+
+            url_intake.toURI();
+
+            return true;
+
+        } catch (Exception e) { return false; }
     }
 
     /**
