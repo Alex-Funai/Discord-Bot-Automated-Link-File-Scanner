@@ -1,24 +1,24 @@
+
+
 package discord;
 
 import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
-import discord4j.core.event.domain.lifecycle.GatewayLifecycleEvent;
 import virustotal.virustotal.exception.APIKeyNotFoundException;
 import virustotal.virustotalv2.VirusTotalConfig;
 import virustotal.virustotalv2.VirustotalPublicV2;
 import virustotal.virustotalv2.VirustotalPublicV2Impl;
 
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
  * [0]
  * Authenticator :: <br>
- * domain class for authenticating, connecting, and initializing discord-bot's (client + gateway) services. <br><br>
+ * Authenticator is the main interface to use, and is for authenticating, connecting, and
+ * initializing discord-bot's client and gateway services. <br><br>
  * @implSpec
  * <ol>
- *     <li> Obtain unique discord-bot api-token via discord/developer/application. </li>
+ *     <li> Obtain unique DiscordBot api-token via discord/developer/application. </li>
  *     <li> <u> Masquerade token |value| via encapsulation, by assigning to environment/system variables. </u> </li>
  *     <li> Declare your api-token variable to equate: [A] TOKEN <br>
  *         <i> (example:  private final String TOKEN = "$DISCORD_TOKEN"). </i> </li>
@@ -28,7 +28,7 @@ public interface Authenticator extends Processor {
 
 
     DiscordClient client = DiscordClient.create (
-            System.getenv ("DISCORD_TOKEN") );
+            System.getenv ( "DISCORD_TOKEN" ) );
 
     GatewayDiscordClient gateway = client
             .login()
@@ -45,13 +45,13 @@ public interface Authenticator extends Processor {
         return new VirustotalPublicV2Impl();
     }
 
+
     /**
      * main ::
      * Run this class to initialize the bot, gateway, and event listeners for virustotal stuff.
      * @param args
      */
-    public static void main(String[] args) {
-
+    public static void main ( String[] args ) {
 
         Commands.PingPong();
         EventListener.listenForUrls();
