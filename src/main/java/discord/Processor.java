@@ -98,18 +98,18 @@ public interface Processor {
     }
 
     /**
-     * getResponseStatus() :: <br>
-     * getResponseStatus method will intake a report, and return a message that evaluates/represents
+     * getIntegrityRatingResponse() :: <br>
+     * getIntegrityRatingResponse method will intake a report, and return a message that evaluates/represents
      * the threat level of a scan. The results are based upon the number of positive flags returned in a report.
      * @param report url or file reports.
      * @return strings that represent a reports threat level, non-verbatim.
      */
-    static String getResponseStatus(FileScanReport report) {
+    static String getIntegrityRatingResponse ( FileScanReport report ) {
 
         int numberOfPositives = report.getPositives();
 
         if (numberOfPositives == 0) {
-            return ( "URL is safe" );
+            return ( "URL is safe " + report.getPositives() + " databases have flagged as suspicious" );
         } else if (numberOfPositives >= 1 && numberOfPositives <= 2) {
             return ( "URL likely safe, discern false flag potential, and proceed wisely.");
         } else if (numberOfPositives >= 3) {

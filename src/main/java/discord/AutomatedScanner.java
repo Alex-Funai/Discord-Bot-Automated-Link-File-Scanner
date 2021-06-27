@@ -20,8 +20,6 @@ import java.util.Arrays;
 import java.util.Map;
 import org.apache.commons.io.FileUtils;
 
-import static org.apache.http.client.methods.RequestBuilder.delete;
-
 /**
  * AutomatedScanner :: <br>
  * AutomatedScanner is an interface that manages creating scan reports, and then creating an embedded discord
@@ -93,7 +91,7 @@ public interface AutomatedScanner extends Processor, Authenticator {
                         )
 
                         .setDescription(
-                                Processor.getResponseStatus(report)
+                                Processor.getIntegrityRatingResponse(report)
                         )
 
                         .addField(
