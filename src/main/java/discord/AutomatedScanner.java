@@ -151,7 +151,7 @@ public interface AutomatedScanner extends Processor, Authenticator {
         } catch (UnauthorizedAccessException ex) {
             System.err.println("Invalid API Key " + ex.getMessage());
         } catch (Exception ex) {
-            System.err.println("Something Bad Happened! " + ex.getMessage());
+            System.err.println("Operation FUBAR! " + ex.getMessage());
         }
     }
 
