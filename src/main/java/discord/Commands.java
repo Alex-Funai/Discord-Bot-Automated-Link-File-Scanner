@@ -12,7 +12,6 @@ import virustotal.virustotal.exception.UnauthorizedAccessException;
 import virustotal.virustotalv2.VirusTotalConfig;
 import virustotal.virustotalv2.VirustotalPublicV2;
 import virustotal.virustotalv2.VirustotalPublicV2Impl;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.time.Instant;

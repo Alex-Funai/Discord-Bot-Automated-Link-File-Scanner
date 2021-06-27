@@ -1,8 +1,8 @@
 package discord;
 
+import static discord.Authenticator.gateway;
 import discord4j.rest.util.Color;
 import virustotal.virustotal.dto.FileScanReport;
-
 import java.io.*;
 import java.math.BigInteger;
 import java.net.*;
@@ -12,7 +12,7 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import static discord.Authenticator.gateway;
+
 
 
 public interface Processor {

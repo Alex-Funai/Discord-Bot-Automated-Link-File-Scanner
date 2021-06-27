@@ -109,7 +109,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
@@ -266,7 +266,7 @@
       <workItem from="1624746368857" duration="271000" />
       <workItem from="1624746653989" duration="28000" />
       <workItem from="1624746694031" duration="12939000" />
-      <workItem from="1624761250544" duration="7254000" />
+      <workItem from="1624761250544" duration="8311000" />
     </task>
     <servers />
   </component>

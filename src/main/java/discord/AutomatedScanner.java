@@ -12,17 +12,12 @@ import virustotal.virustotalv2.VirustotalPublicV2;
 import virustotal.virustotal.exception.APIKeyNotFoundException;
 import virustotal.virustotalv2.VirusTotalConfig;
 import virustotal.virustotalv2.VirustotalPublicV2Impl;
-
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Map;
-
 import org.apache.commons.io.FileUtils;
 
 /**
@@ -178,10 +173,10 @@ public interface AutomatedScanner extends Processor, Authenticator {
             channel.createEmbed(spec -> spec
 
                             .setColor(Color.BLACK)
-                    .setAuthor("File Scan Report:", message.getData().attachments().get(0).url(), "https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg")
+                    .setAuthor("File Scan Report:", scanInformation.getPermalink(), "https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg")
                     //.setImage("null")
-                    .setTitle("Title")
-                   // .setUrl("URL")
+                    .setTitle(message.getData().attachments().get(0).filename())
+                    .setUrl("URL")
                     .setDescription("test")
                     .addField("field1", "1", true)
                     .addField("field2", "2", true)
