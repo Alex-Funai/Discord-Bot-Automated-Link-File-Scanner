@@ -1,7 +1,8 @@
 virustotal/virustotal/dto/ScanInfo.java
  virustotal.virustotal.dto.ScanInfo
-virustotal/virustotal/dto/FileScanReport.java
- virustotal.virustotal.dto.FileScanReport
+discord/Authenticator.java
+ discord.Authenticator
+ discord.Authenticator$1
 virustotal/virustotalv2/VirusTotalConfig.java
  virustotal.virustotalv2.VirusTotalConfig
 virustotal/virustotal/dto/VirusScanInfo.java
@@ -10,8 +11,9 @@ virustotal/virustotal/dto/DomainReport.java
  virustotal.virustotal.dto.DomainReport
 virustotal/virustotal/dto/IPAddressReport.java
  virustotal.virustotal.dto.IPAddressReport
-virustotal/net/model/HttpStatus.java
- virustotal.net.model.HttpStatus
+discord/AutomatedScanner.java
+ discord.AutomatedScanner
+ discord.AutomatedScanner$1
 virustotal/virustotalv2/VirustotalPublicV2.java
  virustotal.virustotalv2.VirustotalPublicV2
 virustotal/net/commons/BasicHTTPRequestImpl.java
@@ -40,8 +42,9 @@ virustotal/net/commons/HTTPRequest.java
  virustotal.net.commons.HTTPRequest
 virustotal/virustotal/dto/GeneralResponse.java
  virustotal.virustotal.dto.GeneralResponse
-virustotal/virustotal/exception/APIKeyNotFoundException.java
- virustotal.virustotal.exception.APIKeyNotFoundException
+discord/Commands.java
+ discord.Commands
+ discord.Commands$1
 discord/Processor.java
  discord.Processor
  discord.Processor$1
@@ -57,15 +60,12 @@ virustotal/virustotal/dto/DomainResolution.java
  virustotal.virustotal.dto.DomainResolution
 virustotal/virustotal/exception/QuotaExceededException.java
  virustotal.virustotal.exception.QuotaExceededException
-discord/Authenticator.java
- discord.Authenticator
- discord.Authenticator$1
-discord/AutomatedScanner.java
- discord.AutomatedScanner
- discord.AutomatedScanner$1
+virustotal/virustotal/exception/APIKeyNotFoundException.java
+ virustotal.virustotal.exception.APIKeyNotFoundException
+virustotal/net/model/HttpStatus.java
+ virustotal.net.model.HttpStatus
 discord/EventListener.java
  discord.EventListener
  discord.EventListener$1
-discord/Commands.java
- discord.Commands
- discord.Commands$1
+virustotal/virustotal/dto/FileScanReport.java
+ virustotal.virustotal.dto.FileScanReport

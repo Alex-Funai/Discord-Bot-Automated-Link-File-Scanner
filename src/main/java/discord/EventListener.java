@@ -81,17 +81,9 @@ public interface EventListener extends Authenticator, AutomatedScanner, Processo
                     if ( message.getAttachments().size() > 0 ) {
 
                         System.out.println ( "The test passes and it can tell there are attachments." );
-                        System.out.println(message.getContent());
 
-                        MessageChannel channel = message
-                                .getChannel()
-                                .block();
+                        AutomatedScanner.scanAttachments(message);
 
-                        assert channel != null;
-
-                        channel
-                                .createMessage ("One moment...Scanning file integrity via VirusTotal.com")
-                                .block();
                     }
                 });
     }

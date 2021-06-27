@@ -59,6 +59,7 @@ public interface Authenticator extends Processor {
 
         /***** Activate the EventListener interface, to direct the bot which passive events and actions it's allowed to react for *****/
         EventListener.ListenForUrls();
+        EventListener.ListenForAttachments();
 
         gateway.onDisconnect().block();
 

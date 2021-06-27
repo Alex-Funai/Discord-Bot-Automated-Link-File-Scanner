@@ -1,22 +1,29 @@
 package discord;
 
 import discord4j.common.util.Snowflake;
-import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.MessageChannel;
-import reactor.core.publisher.Mono;
+import discord4j.rest.util.Color;
 import virustotal.virustotal.dto.FileScanReport;
+import virustotal.virustotal.dto.ScanInfo;
 import virustotal.virustotal.dto.VirusScanInfo;
 import virustotal.virustotal.exception.UnauthorizedAccessException;
 import virustotal.virustotalv2.VirustotalPublicV2;
 import virustotal.virustotal.exception.APIKeyNotFoundException;
 import virustotal.virustotalv2.VirusTotalConfig;
 import virustotal.virustotalv2.VirustotalPublicV2Impl;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Map;
+
+import org.apache.commons.io.FileUtils;
 
 /**
  * AutomatedScanner :: <br>
@@ -34,7 +41,7 @@ public interface AutomatedScanner extends Processor, Authenticator {
      */
       static void scanUrls(Message message) {
 
-          String [] urls = (message.getContent()).split(" ");
+          String [] urls = ( message.getContent() ).split ( " " );
 
         try {
             VirusTotalConfig
@@ -45,9 +52,7 @@ public interface AutomatedScanner extends Processor, Authenticator {
 
             Snowflake snowflake = message.getId();
 
-            message.delete (
-                    snowflake.asString()
-            ).subscribe();
+            message.delete ( snowflake.asString() ).subscribe();
 
 
             FileScanReport[] reports = virusTotalRef.getUrlScanReport(urls, false);
@@ -112,14 +117,13 @@ public interface AutomatedScanner extends Processor, Authenticator {
                                 "ID: " + report.getScanId(),"https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg"
 
                         )
-
                         .setTimestamp(
                                 Instant.now()
                         )
                 ).block();
 
 
-                // CONSOLE INFORMATION:
+                // CONSOLE INFORMATION: [start]
                 System.out.println("MD5 :\t" + report.getMd5());
                 System.out.println("Perma link :\t" + report.getPermalink());
                 System.out.println("Resource :\t" + report.getResource());
@@ -139,11 +143,53 @@ public interface AutomatedScanner extends Processor, Authenticator {
                     System.out.println("\t\t Result : " + virusInfo.getResult());
                     System.out.println("\t\t Update : " + virusInfo.getUpdate());
                     System.out.println("\t\t Version :" + virusInfo.getVersion());
-
+                // Console Information: [end]
                 }
-
-
             }
+
+        } catch (APIKeyNotFoundException ex) {
+            System.err.println("API Key not found! " + ex.getMessage());
+        } catch (UnsupportedEncodingException ex) {
+            System.err.println("Unsupported Encoding Format!" + ex.getMessage());
+        } catch (UnauthorizedAccessException ex) {
+            System.err.println("Invalid API Key " + ex.getMessage());
+        } catch (Exception ex) {
+            System.err.println("Something Bad Happened! " + ex.getMessage());
+        }
+    }
+
+    static void scanAttachments ( Message message ) {
+        try {
+            VirusTotalConfig.getConfigInstance().setVirusTotalAPIKey(System.getenv("VIRUS_TOKEN"));
+            VirustotalPublicV2 virusTotalRef = new VirustotalPublicV2Impl();
+
+            URL attachmentURL = new URL(message.getData().attachments().get(0).url());
+            File attachmentFileName = new File(message.getData().attachments().get(0).filename());
+
+            FileUtils.copyURLToFile(attachmentURL, attachmentFileName);
+
+            ScanInfo scanInformation = virusTotalRef.scanFile(attachmentFileName);
+
+            MessageChannel channel = message
+                    .getChannel()
+                    .block();
+
+            assert channel != null;
+            channel.createEmbed(spec -> spec
+
+                            .setColor(Color.BLACK)
+                    .setAuthor("File Scan Report:", message.getData().attachments().get(0).url(), "https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg")
+                    //.setImage("null")
+                    .setTitle("Title")
+                   // .setUrl("URL")
+                    .setDescription("test")
+                    .addField("field1", "1", true)
+                    .addField("field2", "2", true)
+                    .addField("field3", "3", true)
+                    .setFooter("FooterText", "https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg")
+                    .setTimestamp(Instant.now())
+            ).block();
+
 
         } catch (APIKeyNotFoundException ex) {
             System.err.println("API Key not found! " + ex.getMessage());

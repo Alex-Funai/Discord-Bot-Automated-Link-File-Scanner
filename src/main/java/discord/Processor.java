@@ -2,7 +2,8 @@ package discord;
 
 import discord4j.rest.util.Color;
 import virustotal.virustotal.dto.FileScanReport;
-import java.io.IOException;
+
+import java.io.*;
 import java.math.BigInteger;
 import java.net.*;
 import java.net.http.HttpClient;
@@ -18,7 +19,7 @@ public interface Processor {
 
     /**
      * isURL() :: <br>
-     * A method that validates a url string by definition of toURI(). <br>
+     * isURL method will validate a url string by definition of toURI(). <br>
      * @param Url intakes a string object that's value represents a URI or URL.
      * @return true, if the method's intake string is a valid Url || false, if not.
      */
@@ -36,8 +37,8 @@ public interface Processor {
     }
 
     /**
-     * GetBodySha256 :: <br>
-     * GetBodySha256() will process a uri and performs a http GET request, to retrieve the objects' HTML body,
+     * GetBodySha256() :: <br>
+     * GetBodySha256 method will process a uri and performs a http GET request, to retrieve the objects' HTML body,
      * and then converts it to checksum-SHA256. <br><br>
      * @param uri intakes a string with value of a uri or url.
      * @return a checksum-SHA256 hex, as a string object.
@@ -75,8 +76,8 @@ public interface Processor {
 
 
     /**
-     * getMessageColor :: <br>
-     * getMessageColor() is a conditional statement for checking the value of malicious flags returned from a report --
+     * getMessageColor() :: <br>
+     * getMessageColor method is a conditional statement for checking the value of malicious flags returned from a report --
      * it then assigns and returns a color value for an embedded message depending on the increment of severity.
      * @param report intake a FileScanReport[] array.
      * @return conditional color corresponding to pre-determined severity of flags, based off the value of .getTotal().
@@ -96,6 +97,13 @@ public interface Processor {
         }
     }
 
+    /**
+     * getResponseStatus() :: <br>
+     * getResponseStatus method will intake a report, and return a message that evaluates/represents
+     * the threat level of a scan. The results are based upon the number of positive flags returned in a report.
+     * @param report url or file reports.
+     * @return strings that represent a reports threat level, non-verbatim.
+     */
     static String getResponseStatus(FileScanReport report) {
 
         int numberOfPositives = report.getPositives();
@@ -111,12 +119,6 @@ public interface Processor {
         }
     }
 
-    static FileScanReport isReportDirty(FileScanReport report) {
-
-        return null;
-    }
-
-
     /**
      * ShutDownBot :: <br>
      * ShutDownBot() is a method for resolving gateway and client shutdown, if the disconnect function doesn't
@@ -127,4 +129,5 @@ public interface Processor {
         gateway.logout();
         gateway.onDisconnect().block();
     }
+
 }
