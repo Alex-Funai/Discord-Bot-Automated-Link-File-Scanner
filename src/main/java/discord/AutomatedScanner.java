@@ -96,20 +96,20 @@ public interface AutomatedScanner extends Processor, Authenticator {
 
                         .addField(
                                 "[Submission]" ,
-                                "Author : \t" + message.getData().author().username().toString() + "\n"
-                                    + "Discriminator : \t" + message.getData().author().discriminator().toString() + "\n"
-                                    + "Date : \t" + report.getScanDate(), true
+                                "**Author :** \t" + message.getData().author().username().toString() + "\n"
+                                    + "**Discriminator :** \t" + message.getData().author().discriminator().toString() + "\n"
+                                    + "**Date :** \t" + report.getScanDate(), true
                         )
 
                         .addField(
                                 "[Statistics]",
-                                "Malicious Flags : \t" + report.getPositives() + "\n"
-                                    + "Databases Referenced : \t" + report.getTotal() + "\n"
-                                    + "Response Code : \t" + report.getResponseCode(), true
+                                "**Malicious Flags :** \t" + report.getPositives() + "\n"
+                                    + "**Databases Referenced :** \t" + report.getTotal() + "\n"
+                                    + "**Response Code :** \t" + report.getResponseCode(), true
                         )
 
                         .setFooter(
-                                "Scan ID: \t" + report.getScanId(),"https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg"
+                                "ID: " + report.getScanId(),"https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg"
 
                         )
 

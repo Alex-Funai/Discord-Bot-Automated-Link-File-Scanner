@@ -115,7 +115,24 @@
       <recent name="D:\Projects\dbs\src\main\java\discord" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.dbs [jar]">
+  <component name="RunManager" selected="Application.Authenticator">
+    <configuration name="Authenticator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <envs>
+        <env name="VIRUS_TOKEN" value="ea6a3abeef7826e4d1a6e72d413e0d1d546ca626fb2d32cdec372ca6057ab60d" />
+        <env name="DISCORD_TOKEN" value="ODM1NzI1NDExOTQxMDg5MzAx.YITn8Q.XPrSuYglYg-kDuEf9U1xvY4dvtA" />
+      </envs>
+      <option name="MAIN_CLASS_NAME" value="discord.Authenticator" />
+      <module name="dbvt.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="discord.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -126,27 +143,6 @@
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
-    </configuration>
-    <configuration name="dbs [dependentComponents]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="dependentComponents" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
     </configuration>
     <configuration name="dbs [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -233,7 +229,7 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Gradle.dbs [dependentComponents]" />
+      <item itemvalue="Application.Authenticator" />
       <item itemvalue="Gradle.dbs [processResources]" />
       <item itemvalue="Gradle.dbs [prepareKotlinBuildScriptModel]" />
       <item itemvalue="Gradle.dbs [processTestResources]" />
@@ -241,11 +237,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Authenticator" />
         <item itemvalue="Gradle.dbs [jar]" />
         <item itemvalue="Gradle.dbs [processTestResources]" />
         <item itemvalue="Gradle.dbs [prepareKotlinBuildScriptModel]" />
         <item itemvalue="Gradle.dbs [processResources]" />
-        <item itemvalue="Gradle.dbs [dependentComponents]" />
       </list>
     </recent_temporary>
   </component>
@@ -259,7 +255,7 @@
       <updated>1624746367603</updated>
       <workItem from="1624746368857" duration="271000" />
       <workItem from="1624746653989" duration="28000" />
-      <workItem from="1624746694031" duration="10401000" />
+      <workItem from="1624746694031" duration="11574000" />
     </task>
     <servers />
   </component>
