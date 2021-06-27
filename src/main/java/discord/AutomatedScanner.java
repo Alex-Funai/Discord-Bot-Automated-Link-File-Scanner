@@ -21,16 +21,18 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 
 /**
- * AutomatedScanner :: <br>
- * AutomatedScanner is an interface that manages creating scan reports, and then creating an embedded discord
- * message that entails the report results. The results are retrieved from VirusTotal's database, but will likely
- * include data from otx.alienvault later through development.
+ * AutomatedScanner : <br>
+ * The AutomatedScanner interface will manage creating scan reports -- then creating an embedded discord
+ * message that entails the report results. The results are retrieved from VirusTotal's database. Need to create API for
+ * VirusTotalV3 which I believe will enable more detailed results. Also investigating otx.AlienVault, and other sources
+ * to include more information. Currently seems like otx.AlienVault mainly provides pulse information (pulses are user managed
+ * events and records for threat intelligence).
  */
 public interface AutomatedScanner extends Processor, Authenticator {
 
     /**
-     * ScanUrls() :: <br>
-     * ScanUrls will scan an array of urls and create an embedded discord message containing relevant information
+     * scanUrls() : <br>
+     * The scanUrls() method will scan an array of urls and create an embedded discord message containing relevant information
      * retrieved from VirusTotal's database.
      * </ul>
      */
@@ -154,8 +156,8 @@ public interface AutomatedScanner extends Processor, Authenticator {
     }
 
     /**
-     * scanAttachments():: <br>
-     * The scanAttachments method will retrieve retrieve attachments from a discord message (images, videos, files).
+     * scanAttachments() : <br>
+     * The scanAttachments() method will retrieve retrieve attachments from a discord message (images, videos, files).
      * After retrieving files, the items are downloaded, and then parsed into a VirusTotal file scan. The scan returns
      * file hash information, and whether or not there are known suspicions to regard. Currently the files are downloaded
      * to the main directory, but I would like to use some type of cache, and later tonight will put a simple java.file

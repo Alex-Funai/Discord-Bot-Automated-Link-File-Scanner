@@ -19,18 +19,18 @@ import java.util.Arrays;
 
 
 /**
- * Comands :; <br>
+ * Commands ; <br>
  * Commands interface manages user-bot interactions, and defines commands that human users can utilize to
  * interact with the bot, as long as the messages are within the bot's scope. The commands dominantly pertain to
- * gateway listener events.
+ * gateway listener events. This interface will most likely include oSINT or random lookup tools that I can find and include.
  */
 public interface Commands extends EventListener {
 
 
     /**
-     * PingPong() :: <br>
-     * PingPong is a command that creates and sends a channel message "pong", when a user
-     * within the bot's scope sends the message "!pong". PingPong is a basic introduction task for validating gateway
+     * pingPong() : <br>
+     * The pingPong() method is a command that creates and sends a channel message "pong", when a user
+     * within the bot's scope sends the message "!pong". pingPong is a basic introduction task for validating gateway
      * listener events, and automated bot tasks. <br><br>
      * @see
      * <ol>
@@ -40,7 +40,7 @@ public interface Commands extends EventListener {
      *     <li> Defines the message's response as, "pong", and then executes sending via .block() </li>
      * </ol>
      */
-    static void PingPong() {
+    static void pingPong() {
 
 
         assert gateway != null;
@@ -66,8 +66,8 @@ public interface Commands extends EventListener {
 
 
     /**
-     * GetUrlReport() :: <br>
-     * The GetUrlReport method is an extension to a VirusTotal scan, and will retrieve information that specifically
+     * getUrlReport() :: <br>
+     * The getUrlReport method is an extension to a VirusTotal scan, and will retrieve information that specifically
      * pertains to each of the 80+ databases that VirusTotal utilizes.
      * @throws APIKeyNotFoundException
      * @throws InvalidArguentsException
@@ -75,7 +75,7 @@ public interface Commands extends EventListener {
      * @throws UnauthorizedAccessException
      * @throws IOException
      */
-    static void GetUrlReport(Message message) {
+    static void getUrlReport(Message message) {
 
         try {
             VirusTotalConfig

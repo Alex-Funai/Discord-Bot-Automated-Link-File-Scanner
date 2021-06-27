@@ -9,16 +9,16 @@ import java.net.URL;
 
 
 /**
- * EventListener :: <br>
- * EventListener is an interface for managing discord's gateway listener events. The EventListener interface
+ * EventListener : <br>
+ * The EventListener interface will manage discord's gateway listener events. The EventListener interface
  * contains actions the discord bot will execute, as it passively listens to the channels within it's scope. EventListener
  * is a reactive interface that only executes it's method's independently if their execution requirements are met.
  */
 public interface EventListener extends Authenticator, AutomatedScanner, Processor {
 
     /**
-     * ListenForUrls() :: <br>
-     * The ListenForUrls method is a reactive discord gateway listener, for determining if a URL is present in any message
+     * listenForUrls() :: <br>
+     * The listenForUrls method is a reactive discord gateway listener, for determining if a URL is present in any message
      * that is passed by the discord bot's scope.<br><br>
      * @see
      * <ol>
@@ -30,7 +30,7 @@ public interface EventListener extends Authenticator, AutomatedScanner, Processo
      *     <li> Print virustotal url scanners returned results.</li>
      * </ol>
      */
-    static void ListenForUrls() {
+    static void listenForUrls() {
 
         assert gateway != null;
 
@@ -55,8 +55,8 @@ public interface EventListener extends Authenticator, AutomatedScanner, Processo
      }
 
     /**
-     * ListenForAttachments() :: <br>
-     * The ListenForAttachments method is a reactive gateway listener event that activates when the bot determines an attachment
+     * listenForAttachments() : <br>
+     * The listenForAttachments() method is a reactive gateway listener event that activates when the bot determines an attachment
      * has been passed through it's scope.
      * @see
      * <ol>
@@ -69,7 +69,7 @@ public interface EventListener extends Authenticator, AutomatedScanner, Processo
      *     <li> If/else || switch(case) --> for either allowing link, or to some extent supressing it with an explanation messeage.</li>
      * </ol>
      */
-    static void ListenForAttachments() {
+    static void listenForAttachments() {
 
         assert gateway != null;
 

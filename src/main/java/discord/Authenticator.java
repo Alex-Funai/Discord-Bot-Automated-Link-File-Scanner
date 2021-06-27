@@ -11,8 +11,8 @@ import virustotal.virustotalv2.VirustotalPublicV2Impl;
 
 
 /**
- * Authenticator :: <br>
- * Authenticator interface is the main interface to use; and is for authenticating, connecting, and
+ * Authenticator : <br>
+ * The Authenticator interface is the main interface to use; and is for authenticating, connecting, and
  * initializing discord-bot's client and gateway services. <br><br>
  * @implSpec
  * <ol>
@@ -42,8 +42,8 @@ public interface Authenticator extends Processor {
     }
 
     /**
-     * main ::<br>
-     * The main method will create and log the discord bot in through gateway and client services, then activate it
+     * main() :<br>
+     * The main() method will create and log the discord bot in through gateway and client services, then activate it
      * into a server. The main method needs to contain the interfaces and methods that the bot should use, otherwise
      * it will only login. This will be solved by using a bridge interface later that encapsulates each interfaces methods
      * into callable objects.
@@ -53,10 +53,10 @@ public interface Authenticator extends Processor {
 
         assert gateway != null;
 
-        Commands.PingPong();
+        Commands.pingPong();
 
-        EventListener.ListenForUrls();
-        EventListener.ListenForAttachments();
+        EventListener.listenForUrls();
+        EventListener.listenForAttachments();
 
         gateway.onDisconnect().block();
 
