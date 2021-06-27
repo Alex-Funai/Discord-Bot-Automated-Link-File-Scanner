@@ -3,6 +3,8 @@ package discord;
 import static discord.Authenticator.gateway;
 import discord4j.rest.util.Color;
 import virustotal.virustotal.dto.FileScanReport;
+import virustotal.virustotal.dto.ScanInfo;
+
 import java.io.*;
 import java.math.BigInteger;
 import java.net.*;
@@ -37,8 +39,8 @@ public interface Processor {
     }
 
     /**
-     * GetBodySha256() :: <br>
-     * GetBodySha256 method will process a uri and performs a http GET request, to retrieve the objects' HTML body,
+     * getBodySha256() : <br>
+     * The getBodySha256() method will process a uri and performs a http GET request, to retrieve the objects' HTML body,
      * and then converts it to checksum-SHA256. <br><br>
      * @param uri intakes a string with value of a uri or url.
      * @return a checksum-SHA256 hex, as a string object.
@@ -46,7 +48,7 @@ public interface Processor {
      * @throws IOException
      * @throws InterruptedException
      */
-    static String GetBodySha256 (String uri) throws NoSuchAlgorithmException, IOException, InterruptedException {
+    static String getBodySha256(String uri) throws NoSuchAlgorithmException, IOException, InterruptedException {
 
         HttpClient client = HttpClient.newHttpClient();
 
@@ -76,20 +78,20 @@ public interface Processor {
 
 
     /**
-     * getMessageColor() :: <br>
-     * getMessageColor method is a conditional statement for checking the value of malicious flags returned from a report --
+     * getMessageColor() : <br>
+     * The getMessageColor() method is a conditional statement for checking the value of malicious flags returned from a report --
      * it then assigns and returns a color value for an embedded message depending on the increment of severity.
      * @param report intake a FileScanReport[] array.
      * @return conditional color corresponding to pre-determined severity of flags, based off the value of .getTotal().
      */
-    static Color getMessageColor(FileScanReport report) {
+    static Color getMessageColor ( FileScanReport report ) {
 
         int numberOfPositives = report.getPositives();
 
-        if (numberOfPositives == 0) {
+        if ( numberOfPositives == 0 ) {
             return ( Color.GREEN );
         } else if (numberOfPositives >= 1 && numberOfPositives <= 2) {
-            return ( Color.YELLOW );
+            return ( Color.MOON_YELLOW );
         } else if (numberOfPositives >= 3) {
             return ( Color.RED );
         } else {
@@ -98,18 +100,18 @@ public interface Processor {
     }
 
     /**
-     * getIntegrityRatingResponse() :: <br>
-     * getIntegrityRatingResponse method will intake a report, and return a message that evaluates/represents
+     * getIntegrityRatingPositives() : <br>
+     * The getIntegrityRatingPositives() method will intake a report, and return a message that evaluates/represents
      * the threat level of a scan. The results are based upon the number of positive flags returned in a report.
      * @param report url or file reports.
      * @return strings that represent a reports threat level, non-verbatim.
      */
-    static String getIntegrityRatingResponse ( FileScanReport report ) {
+    static String getIntegrityRatingPositives(FileScanReport report) {
 
         int numberOfPositives = report.getPositives();
 
-        if (numberOfPositives == 0) {
-            return ( "URL is safe " + report.getPositives() + " databases have flagged as suspicious" );
+        if ( numberOfPositives == 0 ) {
+            return ( "URL is safe" );
         } else if (numberOfPositives >= 1 && numberOfPositives <= 2) {
             return ( "URL likely safe, discern false flag potential, and proceed wisely.");
         } else if (numberOfPositives >= 3) {
@@ -120,11 +122,56 @@ public interface Processor {
     }
 
     /**
-     * ShutDownBot :: <br>
-     * ShutDownBot() is a method for resolving gateway and client shutdown, if the disconnect function doesn't
-     * properly work. Sometimes utilizing onDisconnect().
+     * getIntegrityRatingResponseCode() : <br>
+     * The getIntegrityRatingResponseCode() method is a quick boolean switch, for determining the integrity of a fileScan.
+     * ScanInfo.getVerboseStatus() is the determining variable -- it returns 1 when a VirusTotal scan catches a flag in
+     * one of it's databases, and a 0 if not (symbolizing, a technically clean scan). FileScanReport.getTotal() wasn't
+     * available in the current class, so this sufficed for now.
+     * @param scanInfo intakes a ScanInfo object used with VirusTotal file scans.
+     * @return a boolean value -- true = dirty || false = clean.
      */
-    static void ShutDownBot() {
+      static Boolean getIntegrityRatingResponseCode ( ScanInfo scanInfo ) {
+
+          Boolean verboseStatus;
+
+          if (Integer.parseInt(scanInfo.getVerboseMessage()) == 1) {
+              return verboseStatus = true;
+          } else if (Integer.parseInt(scanInfo.getVerboseMessage()) == 0) {
+              return verboseStatus = false;
+          }
+          return verboseStatus = true;
+      }
+
+    /**
+     * getIntegrityResponseFromBoolean() : <br>
+     * The getIntegrityResponseFromBoolean method extends getIntegrityRatingResponseCode() and provides congruent output
+     * to an object's scan integrity. In some ways unnecessary, because this could have been implemented within
+     * getIntegrityRatingResponseCode(), but in-case for future methods -- this could be useful. Mainly just practice,
+     * for increasing complicity to challenge brain.
+     * @param yorn intakes a boolean, where "yorn" represents a yes-or-no determination scenario.
+     * @return returns a congruent statement to the status of an integrity scan.
+     */
+      static String getIntegrityResponseFromBoolean ( Boolean yorn ) {
+          String yesForSafe = "Object is seemingly safe, and VirusTotal databases indicated no suspicious flags thrown.." +
+                  "However proceed with caution and use wise judgement before proceeding.";
+          String noForNah = "Object has known suspicious references in VirusTotal databases. This could be a false-flag," +
+                  "however definitely investigate the object before executing or parsing.";
+          String ukForUnknown = "Insufficient data for the given object, be careful.";
+          if ( yorn = true ) {
+              return yesForSafe;
+          } else if ( yorn = false ) {
+              return noForNah;
+          }
+          return ukForUnknown;
+      }
+
+    /**
+     * shutDownBot : <br>
+     * The shutDownBot() method will resolve a (gateway + client)'s  shutdown, in-case the onDisconnect() method doesn't
+     * properly work. I currently have it setup incorrectly, so this is a start for correcting that. Doesn't matter for
+     * now tho, everything still all good for testing.
+     */
+    static void shutDownBot() {
         assert gateway != null;
         gateway.logout();
         gateway.onDisconnect().block();

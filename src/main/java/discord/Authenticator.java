@@ -49,14 +49,12 @@ public interface Authenticator extends Processor {
      * into callable objects.
      * @param args
      */
-    public static void main ( String[] args ) {
+    public static void main ( String... args ) {
 
         assert gateway != null;
 
-        /***** Activate the Commands interface, to direct the bot which commands and actions it's allowed to react to. *****/
         Commands.PingPong();
 
-        /***** Activate the EventListener interface, to direct the bot which passive events and actions it's allowed to react for *****/
         EventListener.ListenForUrls();
         EventListener.ListenForAttachments();
 

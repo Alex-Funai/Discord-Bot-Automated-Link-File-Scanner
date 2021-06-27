@@ -91,21 +91,21 @@ public interface AutomatedScanner extends Processor, Authenticator {
                         )
 
                         .setDescription(
-                                Processor.getIntegrityRatingResponse(report)
+                                Processor.getIntegrityRatingPositives(report)
                         )
 
                         .addField(
                                 "[Submission]" ,
-                                "**Author :** \t" + message.getData().author().username().toString() + "\n"
-                                    + "**Discriminator :** \t" + message.getData().author().discriminator().toString() + "\n"
-                                    + "**Date :** \t" + report.getScanDate(), true
+                                "**Author: ** \t" + message.getData().author().username().toString() + "\n"
+                                    + "**Discriminator: ** \t" + message.getData().author().discriminator().toString() + "\n"
+                                    + "**Date: ** \t" + report.getScanDate(), true
                         )
 
                         .addField(
                                 "[Statistics]",
-                                "**Malicious Flags :** \t" + report.getPositives() + "\n"
-                                    + "**Databases Referenced :** \t" + report.getTotal() + "\n"
-                                    + "**Response Code :** \t" + report.getResponseCode(), true
+                                "**Malicious Flags: ** \t" + report.getPositives() + "\n"
+                                    + "**Databases Referenced: ** \t" + report.getTotal() + "\n"
+                                    + "**Response Code: ** \t" + report.getResponseCode(), true
                         )
 
                         .setFooter(
@@ -153,38 +153,95 @@ public interface AutomatedScanner extends Processor, Authenticator {
         }
     }
 
+    /**
+     * scanAttachments():: <br>
+     * The scanAttachments method will retrieve retrieve attachments from a discord message (images, videos, files).
+     * After retrieving files, the items are downloaded, and then parsed into a VirusTotal file scan. The scan returns
+     * file hash information, and whether or not there are known suspicions to regard. Currently the files are downloaded
+     * to the main directory, but I would like to use some type of cache, and later tonight will put a simple java.file
+     * line to delete file after the scan/message is executed.
+     *
+     * @param message intakes a discord message that contains attachments.
+     */
     static void scanAttachments ( Message message ) {
+
         try {
-            VirusTotalConfig.getConfigInstance().setVirusTotalAPIKey(System.getenv("VIRUS_TOKEN"));
+            VirusTotalConfig
+                    .getConfigInstance()
+                    .setVirusTotalAPIKey (
+                            System.getenv ( "VIRUS_TOKEN" ) );
+
             VirustotalPublicV2 virusTotalRef = new VirustotalPublicV2Impl();
 
-            URL attachmentURL = new URL(message.getData().attachments().get(0).url());
-            File attachmentFileName = new File(message.getData().attachments().get(0).filename());
+            URL attachmentURL = new URL (
+                    message
+                            .getData()
+                            .attachments()
+                            .get(0)
+                            .url());
 
-            FileUtils.copyURLToFile(attachmentURL, attachmentFileName);
+            File attachmentFileName = new File (
+                    message
+                            .getData()
+                            .attachments()
+                            .get(0)
+                            .filename());
 
-            ScanInfo scanInformation = virusTotalRef.scanFile(attachmentFileName);
+            FileUtils.copyURLToFile ( attachmentURL, attachmentFileName );
+
+            ScanInfo scanInformation = virusTotalRef.scanFile ( attachmentFileName );
 
             MessageChannel channel = message
                     .getChannel()
                     .block();
 
             assert channel != null;
-            channel.createEmbed(spec -> spec
+            channel.createEmbed ( spec -> spec
 
-                            .setColor(Color.BLACK)
-                    .setAuthor("File Scan Report:", scanInformation.getPermalink(), "https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg")
-                    //.setImage("null")
-                    .setTitle(message.getData().attachments().get(0).filename())
-                    .setUrl("URL")
-                    .setDescription("test")
-                    .addField("field1", "1", true)
-                    .addField("field2", "2", true)
-                    .addField("field3", "3", true)
-                    .setFooter("FooterText", "https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg")
-                    .setTimestamp(Instant.now())
+                    .setColor (
+                            Color.BLACK
+                    )
+                    .setAuthor (
+                            "File Scan Report : ", scanInformation.getPermalink(),
+                            "https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg")
+                    .setTitle (
+                            message
+                                    .getData()
+                                    .attachments()
+                                    .get(0)
+                                    .filename()
+                    )
+                    .setUrl (
+                            message
+                                    .getData()
+                                    .attachments()
+                                    .get(0)
+                                    .url())
+                    .setDescription (
+                            "test"
+                    )
+                    .addField (
+                            "[Submission] " ,
+                            "**Author: **" + message.getData().author().username() + "\n"
+                            + "**Discriminator: ** " + message.getData().author().discriminator() + "\n"
+                            + "**Date: **" + message.getData().timestamp(),
+                            true
+                    )
+                    .addField (
+                            "[Hashes]",
+                            "**SHA1: **" + scanInformation.getSha1() + "\n"
+                                + "**SHA256: **" + scanInformation.getSha256() + "\n"
+                                + "**MD5: **" + scanInformation.getMd5(),
+                            true
+                    )
+                    .setFooter (
+                            "Id: " + scanInformation.getScanId(),
+                            "https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg"
+                    )
+                    .setTimestamp (
+                            Instant.now()
+                    )
             ).block();
-
 
         } catch (APIKeyNotFoundException ex) {
             System.err.println("API Key not found! " + ex.getMessage());
@@ -196,4 +253,5 @@ public interface AutomatedScanner extends Processor, Authenticator {
             System.err.println("Something Bad Happened! " + ex.getMessage());
         }
     }
+
 }

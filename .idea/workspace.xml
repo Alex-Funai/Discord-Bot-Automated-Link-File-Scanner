@@ -123,7 +123,7 @@
     <configuration name="Authenticator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <envs>
         <env name="VIRUS_TOKEN" value="ea6a3abeef7826e4d1a6e72d413e0d1d546ca626fb2d32cdec372ca6057ab60d" />
-        <env name="DISCORD_TOKEN" value="ODM1NzI1NDExOTQxMDg5MzAx.YITn8Q.tbDp9zTsmfVyF7mvTSeWONgyjLc" />
+        <env name="DISCORD_TOKEN" value="ODM1NzI1NDExOTQxMDg5MzAx.YITn8Q.OapCnhjaHnXiu-9HIlZE8UHzyrk" />
       </envs>
       <option name="MAIN_CLASS_NAME" value="discord.Authenticator" />
       <module name="dbvt.main" />
@@ -213,7 +213,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="dbs [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="dbs [clean]" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -224,7 +224,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="jar" />
+            <option value="clean" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -236,8 +236,8 @@
     </configuration>
     <list>
       <item itemvalue="Application.Authenticator" />
+      <item itemvalue="Gradle.dbs [clean]" />
       <item itemvalue="Gradle.dbs [build]" />
-      <item itemvalue="Gradle.dbs [jar]" />
       <item itemvalue="Gradle.dbs [buildNeeded]" />
       <item itemvalue="Gradle.dbs [buildDependents]" />
     </list>
@@ -247,7 +247,6 @@
         <item itemvalue="Gradle.dbs [build]" />
         <item itemvalue="Gradle.dbs [buildDependents]" />
         <item itemvalue="Gradle.dbs [buildNeeded]" />
-        <item itemvalue="Gradle.dbs [jar]" />
       </list>
     </recent_temporary>
   </component>
@@ -262,7 +261,9 @@
       <workItem from="1624746368857" duration="271000" />
       <workItem from="1624746653989" duration="28000" />
       <workItem from="1624746694031" duration="12939000" />
-      <workItem from="1624761250544" duration="10091000" />
+      <workItem from="1624761250544" duration="10819000" />
+      <workItem from="1624791111905" duration="2025000" />
+      <workItem from="1624826497319" duration="5407000" />
     </task>
     <servers />
   </component>
