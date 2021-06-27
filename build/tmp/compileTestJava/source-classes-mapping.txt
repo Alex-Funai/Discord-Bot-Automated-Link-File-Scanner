@@ -1,2 +1,2 @@
-tests.java
- tests
+MainTests.java
+ MainTests

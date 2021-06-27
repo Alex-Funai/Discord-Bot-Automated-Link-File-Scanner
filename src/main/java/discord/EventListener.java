@@ -81,6 +81,7 @@ public interface EventListener extends Authenticator, AutomatedScanner, Processo
                     if ( message.getAttachments().size() > 0 ) {
 
                         System.out.println ( "The test passes and it can tell there are attachments." );
+                        System.out.println(message.getContent());
 
                         MessageChannel channel = message
                                 .getChannel()
@@ -95,4 +96,3 @@ public interface EventListener extends Authenticator, AutomatedScanner, Processo
                 });
     }
 }
-

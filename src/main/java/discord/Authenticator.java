@@ -12,9 +12,8 @@ import virustotal.virustotalv2.VirustotalPublicV2Impl;
 
 
 /**
- * [0]
  * Authenticator :: <br>
- * Authenticator is the main interface to use, and is for authenticating, connecting, and
+ * Authenticator interface is the main interface to use; and is for authenticating, connecting, and
  * initializing discord-bot's client and gateway services. <br><br>
  * @implSpec
  * <ol>
@@ -60,12 +59,9 @@ public interface Authenticator extends Processor {
 
         /***** Activate the EventListener interface, to direct the bot which passive events and actions it's allowed to react for *****/
         EventListener.ListenForUrls();
-        EventListener.ListenForAttachments();
 
-
+        gateway.onDisconnect().block();
 
 
     }
 }
-
-

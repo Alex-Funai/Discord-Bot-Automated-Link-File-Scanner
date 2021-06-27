@@ -1,32 +1,22 @@
 package discord;
 
 import discord4j.common.util.Snowflake;
+import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
-import discord4j.core.object.entity.User;
-import discord4j.core.object.entity.channel.Channel;
 import discord4j.core.object.entity.channel.MessageChannel;
-import discord4j.core.spec.EmbedCreateSpec;
-import discord4j.rest.util.Color;
 import reactor.core.publisher.Mono;
 import virustotal.virustotal.dto.FileScanReport;
 import virustotal.virustotal.dto.VirusScanInfo;
-import virustotal.virustotal.exception.InvalidArguentsException;
-import virustotal.virustotal.exception.QuotaExceededException;
 import virustotal.virustotal.exception.UnauthorizedAccessException;
 import virustotal.virustotalv2.VirustotalPublicV2;
 import virustotal.virustotal.exception.APIKeyNotFoundException;
 import virustotal.virustotalv2.VirusTotalConfig;
 import virustotal.virustotalv2.VirustotalPublicV2Impl;
-
-import java.io.File;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Map;
-
-import static com.google.gson.internal.bind.TypeAdapters.URL;
-
 
 /**
  * AutomatedScanner :: <br>
@@ -34,7 +24,7 @@ import static com.google.gson.internal.bind.TypeAdapters.URL;
  * message that entails the report results. The results are retrieved from VirusTotal's database, but will likely
  * include data from otx.alienvault later through development.
  */
-public interface AutomatedScanner extends Processor {
+public interface AutomatedScanner extends Processor, Authenticator {
 
     /**
      * ScanUrls() :: <br>
@@ -73,8 +63,11 @@ public interface AutomatedScanner extends Processor {
                         .getChannel()
                         .block();
 
+                String thisUser = message.getData().author().username().toString();
+
                 assert channel != null;
 
+                URL authorURL = new URL("https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg");
                 channel.createEmbed ( spec -> spec
 
                         .setColor (
@@ -82,11 +75,11 @@ public interface AutomatedScanner extends Processor {
                         )
 
                         .setAuthor(
-                                "set author", null, null
+                                "URL Scan Report: ", report.getPermalink(), "https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg"
                         )
 
-                        .setImage(
-                                "resources/virustotal-avatar.png"
+                      .setImage(
+                                "https://www.virustotal.com/gui/images/vt-enterprise.svg"
                         )
 
                         .setTitle(
@@ -99,16 +92,13 @@ public interface AutomatedScanner extends Processor {
 
                         .setDescription(
                                 ""
-                                + "** Report Link: ** \t" + report.getPermalink() + "\n"
-                                + "** Scan Date: ** \t" + report.getScanDate() + "\n"
-                                + "** Verbose Msg: ** \t" + report.getVerboseMessage() + "\n"
                         )
 
                         .addField(
-                                "[Hashes]" ,
-                                "SHA256 : \t" + report.getSha256() + "\n"
-                                    + "SHA1 : \t" + report.getSha1() + "\n"
-                                    + "MD5 : \t" + report.getMd5(), true
+                                "[Submission]" ,
+                                "Author : \t" + message.getData().author().username().toString() + "\n"
+                                    + "Discriminator : \t" + message.getData().author().discriminator().toString() + "\n"
+                                    + "Date : \t" + report.getScanDate(), true
                         )
 
                         .addField(
@@ -119,7 +109,7 @@ public interface AutomatedScanner extends Processor {
                         )
 
                         .setFooter(
-                                "Scan ID: \t" + report.getScanId(),"resources/virustotal-avatar.png"
+                                "Scan ID: \t" + report.getScanId(),"https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg"
 
                         )
 
@@ -128,6 +118,8 @@ public interface AutomatedScanner extends Processor {
                         )
                 ).block();
 
+
+                // CONSOLE INFORMATION:
                 System.out.println("MD5 :\t" + report.getMd5());
                 System.out.println("Perma link :\t" + report.getPermalink());
                 System.out.println("Resource :\t" + report.getResource());
@@ -147,7 +139,10 @@ public interface AutomatedScanner extends Processor {
                     System.out.println("\t\t Result : " + virusInfo.getResult());
                     System.out.println("\t\t Update : " + virusInfo.getUpdate());
                     System.out.println("\t\t Version :" + virusInfo.getVersion());
+
                 }
+
+
             }
 
         } catch (APIKeyNotFoundException ex) {
@@ -161,5 +156,3 @@ public interface AutomatedScanner extends Processor {
         }
     }
 }
-
-

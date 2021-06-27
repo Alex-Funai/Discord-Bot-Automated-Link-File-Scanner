@@ -96,6 +96,26 @@ public interface Processor {
         }
     }
 
+    static String getResponseStatus(FileScanReport report) {
+
+        int numberOfPositives = report.getPositives();
+
+        if (numberOfPositives == 0) {
+            return ( "URL is safe" );
+        } else if (numberOfPositives >= 1 && numberOfPositives <= 2) {
+            return ( "URL potentially sus");
+        } else if (numberOfPositives >= 3) {
+            return ( "URL not safe, careful");
+        } else {
+            return ( "Unknown");
+        }
+    }
+
+    static FileScanReport isReportDirty(FileScanReport report) {
+
+        return null;
+    }
+
 
     /**
      * ShutDownBot :: <br>
@@ -108,8 +128,3 @@ public interface Processor {
         gateway.onDisconnect().block();
     }
 }
-
-
-
-
-
