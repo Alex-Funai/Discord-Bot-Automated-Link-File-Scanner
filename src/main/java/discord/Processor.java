@@ -103,9 +103,9 @@ public interface Processor {
         if (numberOfPositives == 0) {
             return ( "URL is safe" );
         } else if (numberOfPositives >= 1 && numberOfPositives <= 2) {
-            return ( "URL potentially sus");
+            return ( "URL likely safe, discern false flag potential, and proceed wisely.");
         } else if (numberOfPositives >= 3) {
-            return ( "URL not safe, careful");
+            return ( "URL is definitely sus and not safe, proceed with CAUTION.");
         } else {
             return ( "Unknown");
         }

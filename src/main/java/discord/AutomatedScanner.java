@@ -91,7 +91,7 @@ public interface AutomatedScanner extends Processor, Authenticator {
                         )
 
                         .setDescription(
-                                ""
+                                Processor.getResponseStatus(report)
                         )
 
                         .addField(
