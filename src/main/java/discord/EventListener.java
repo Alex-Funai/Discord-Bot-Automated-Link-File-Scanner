@@ -44,7 +44,6 @@ public interface EventListener extends Authenticator, AutomatedScanner, Processo
 
                 Snowflake snowflake = message.getId();
 
-                message.delete ( snowflake.asString() ).subscribe();
 
                 if ( Processor.isURL ( message.getContent() ) ) {
 

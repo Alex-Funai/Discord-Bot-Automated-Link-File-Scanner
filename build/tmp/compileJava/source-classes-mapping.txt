@@ -11,8 +11,9 @@ virustotal/virustotal/dto/DomainReport.java
  virustotal.virustotal.dto.DomainReport
 virustotal/virustotal/dto/IPAddressReport.java
  virustotal.virustotal.dto.IPAddressReport
-virustotal/virustotal/dto/FileScanReport.java
- virustotal.virustotal.dto.FileScanReport
+discord/AutomatedScanner.java
+ discord.AutomatedScanner
+ discord.AutomatedScanner$1
 virustotal/virustotalv2/VirustotalPublicV2.java
  virustotal.virustotalv2.VirustotalPublicV2
 virustotal/net/commons/BasicHTTPRequestImpl.java
@@ -41,8 +42,9 @@ virustotal/net/commons/HTTPRequest.java
  virustotal.net.commons.HTTPRequest
 virustotal/virustotal/dto/GeneralResponse.java
  virustotal.virustotal.dto.GeneralResponse
-virustotal/net/model/HttpStatus.java
- virustotal.net.model.HttpStatus
+discord/Commands.java
+ discord.Commands
+ discord.Commands$1
 discord/Processor.java
  discord.Processor
  discord.Processor$1
@@ -60,12 +62,10 @@ virustotal/virustotal/exception/QuotaExceededException.java
  virustotal.virustotal.exception.QuotaExceededException
 virustotal/virustotal/exception/APIKeyNotFoundException.java
  virustotal.virustotal.exception.APIKeyNotFoundException
-discord/AutomatedScanner.java
- discord.AutomatedScanner
- discord.AutomatedScanner$1
+virustotal/net/model/HttpStatus.java
+ virustotal.net.model.HttpStatus
 discord/EventListener.java
  discord.EventListener
  discord.EventListener$1
-discord/Commands.java
- discord.Commands
- discord.Commands$1
+virustotal/virustotal/dto/FileScanReport.java
+ virustotal.virustotal.dto.FileScanReport

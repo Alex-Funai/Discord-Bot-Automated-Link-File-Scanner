@@ -219,11 +219,11 @@ public interface AutomatedScanner extends Processor, Authenticator {
                                     .attachments()
                                     .get(0)
                                     .url())
-                    .setDescription (
+/*                    .setDescription (
                             Processor.getIntegrityResponseFromBoolean (
                                     Processor.getIntegrityRatingResponseCode ( scanInformation )
-                            )
-                    )
+                            ).toString()
+                    )*/
                     .addField (
                             "[Submission] " ,
                             "**Author: **" + message.getData().author().username() + "\n"
