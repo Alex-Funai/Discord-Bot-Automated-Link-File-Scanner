@@ -220,7 +220,9 @@ public interface AutomatedScanner extends Processor, Authenticator {
                                     .get(0)
                                     .url())
                     .setDescription (
-                            Processor.getIntegrityResponseFromBoolean(Processor.getIntegrityRatingResponseCode(scanInformation))
+                            Processor.getIntegrityResponseFromBoolean (
+                                    Processor.getIntegrityRatingResponseCode ( scanInformation )
+                            )
                     )
                     .addField (
                             "[Submission] " ,
