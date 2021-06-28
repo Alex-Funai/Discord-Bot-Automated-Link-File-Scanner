@@ -163,9 +163,7 @@ public interface AutomatedScanner extends Processor, Authenticator {
      * scanAttachments() : <br>
      * The scanAttachments() method will retrieve retrieve attachments from a discord message (images, videos, files).
      * After retrieving files, the items are downloaded, and then parsed into a VirusTotal file scan. The scan returns
-     * file hash information, and whether or not there are known suspicions to regard. Currently the files are downloaded
-     * to the main directory, but I would like to use some type of cache, and later tonight will put a simple java.file
-     * line to delete file after the scan/message is executed.
+     * file hash information, and whether or not there are known suspicions to regard.
      *
      * @param message intakes a discord message that contains attachments.
      */

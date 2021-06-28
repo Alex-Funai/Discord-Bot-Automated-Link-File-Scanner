@@ -123,7 +123,7 @@
     <configuration name="Authenticator" type="Application" factoryName="Application" nameIsGenerated="true">
       <envs>
         <env name="VIRUS_TOKEN" value="ea6a3abeef7826e4d1a6e72d413e0d1d546ca626fb2d32cdec372ca6057ab60d" />
-        <env name="DISCORD_TOKEN" value="ODM1NzI1NDExOTQxMDg5MzAx.YITn8Q.xSefBmRa0ycuHkw9Dqmb5Gc4Bac" />
+        <env name="DISCORD_TOKEN" value="ODM1NzI1NDExOTQxMDg5MzAx.YITn8Q.GrzNAyoKCnSha7UYQxnBGQtmmoo" />
       </envs>
       <option name="MAIN_CLASS_NAME" value="discord.Authenticator" />
       <module name="dbvt.main" />
@@ -288,7 +288,7 @@
       <workItem from="1624826497319" duration="7742000" />
       <workItem from="1624836620607" duration="592000" />
       <workItem from="1624856474914" duration="917000" />
-      <workItem from="1624857447660" duration="1075000" />
+      <workItem from="1624857447660" duration="1285000" />
     </task>
     <servers />
   </component>
