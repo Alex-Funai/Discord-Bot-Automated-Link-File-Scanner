@@ -15,6 +15,10 @@ import virustotal.virustotalv2.VirustotalPublicV2Impl;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Map;
@@ -182,16 +186,22 @@ public interface AutomatedScanner extends Processor, Authenticator {
                             .get(0)
                             .url());
 
-            File attachmentFileName = new File (
+            File attachmentFile = new File (
                     message
                             .getData()
                             .attachments()
                             .get(0)
                             .filename());
 
-            FileUtils.copyURLToFile ( attachmentURL, attachmentFileName );
+            FileUtils.copyURLToFile ( attachmentURL, attachmentFile);
 
-            ScanInfo scanInformation = virusTotalRef.scanFile ( attachmentFileName );
+            ScanInfo scanInformation = virusTotalRef.scanFile ( attachmentFile );
+
+            Snowflake snowflake = message.getId();
+
+            message.delete (
+                    snowflake.asString()
+            ).subscribe();
 
             MessageChannel channel = message
                     .getChannel()
@@ -246,6 +256,13 @@ public interface AutomatedScanner extends Processor, Authenticator {
                             Instant.now()
                     )
             ).block();
+
+            try {
+                Path filePath = attachmentFile.toPath();
+                Files.delete(filePath);
+            } catch (NoSuchFileException e) {
+                System.out.println ( "ERROR: file path is invalid, or does no exist");
+            }
 
         } catch (APIKeyNotFoundException ex) {
             System.err.println("API Key not found! " + ex.getMessage());

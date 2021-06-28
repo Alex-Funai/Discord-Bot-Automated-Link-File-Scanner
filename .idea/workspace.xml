@@ -119,11 +119,11 @@
       <recent name="D:\Projects\dbs\src\main\java\discord" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.dbs [wrapper]">
+  <component name="RunManager" selected="Application.Authenticator">
     <configuration name="Authenticator" type="Application" factoryName="Application" nameIsGenerated="true">
       <envs>
         <env name="VIRUS_TOKEN" value="ea6a3abeef7826e4d1a6e72d413e0d1d546ca626fb2d32cdec372ca6057ab60d" />
-        <env name="DISCORD_TOKEN" value="ODM1NzI1NDExOTQxMDg5MzAx.YITn8Q.x2qNT-9zM1xZW3RvyCIxE91EtrE" />
+        <env name="DISCORD_TOKEN" value="ODM1NzI1NDExOTQxMDg5MzAx.YITn8Q.xSefBmRa0ycuHkw9Dqmb5Gc4Bac" />
       </envs>
       <option name="MAIN_CLASS_NAME" value="discord.Authenticator" />
       <module name="dbvt.main" />
@@ -288,7 +288,7 @@
       <workItem from="1624826497319" duration="7742000" />
       <workItem from="1624836620607" duration="592000" />
       <workItem from="1624856474914" duration="917000" />
-      <workItem from="1624857447660" duration="104000" />
+      <workItem from="1624857447660" duration="1075000" />
     </task>
     <servers />
   </component>
