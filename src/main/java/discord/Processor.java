@@ -60,7 +60,7 @@ public interface Processor {
             }
         }
         return urlsList.toArray(new String[0]);
-    }
+    }//
 
     /**
      * getBodySha256() : <br>
