@@ -24,8 +24,8 @@ import virustotal.virustotalv2.VirustotalPublicV2Impl;
  */
 public interface Authenticator extends Processor {
 
-    DiscordClient client = DiscordClient.create (
-            System.getenv ( "DISCORD_TOKEN" ) );
+    DiscordClient client = DiscordClient.create(
+            System.getenv("DISCORD_TOKEN"));
 
     GatewayDiscordClient gateway = client
             .login()
@@ -36,7 +36,7 @@ public interface Authenticator extends Processor {
         VirusTotalConfig
                 .getConfigInstance()
                 .setVirusTotalAPIKey(
-                        System.getenv ( "VIRUS_TOKEN" ) );
+                        System.getenv("VIRUS_TOKEN"));
 
         return new VirustotalPublicV2Impl();
     }
@@ -55,8 +55,8 @@ public interface Authenticator extends Processor {
 
         Commands.pingPong();
 
-        EventListener.listenForUrls();
-        EventListener.listenForAttachments();
+        Listeners.listenForUrls();
+        Listeners.listenForAttachments();
 
         gateway.onDisconnect().block();
 

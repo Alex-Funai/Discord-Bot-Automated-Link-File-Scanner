@@ -1,7 +1,8 @@
 package discord;
 
-import static discord.Authenticator.gateway;
+import discord4j.core.object.entity.Message;
 import discord4j.rest.util.Color;
+import org.apache.commons.validator.routines.UrlValidator;
 import virustotal.virustotal.dto.FileScanReport;
 import virustotal.virustotal.dto.ScanInfo;
 
@@ -14,28 +15,51 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import static discord.Authenticator.gateway;
 
 
 public interface Processor {
 
     /**
-     * isURL() :: <br>
-     * isURL method will validate a url string by definition of toURI(). <br>
+     * containsUrls() :: <br>
+     * The containsUrls() method will validate a url string by definition of toURI(). <br>
      * @param Url intakes a string object that's value represents a URI or URL.
      * @return true, if the method's intake string is a valid Url || false, if not.
      */
-    static boolean isURL(String Url) {
+    static boolean containsUrls (Message message) {
 
-        try {
+        String messageContent = message.getContent();
+        List<String> tokenizedContent = Arrays.asList(messageContent.split("\\s"));
 
-            URL url_intake = new URL(Url);
+        String [] validationSchemes = {"https", "http"};
+        UrlValidator urlValidator = new UrlValidator (validationSchemes);
+        int urlCount = (int) tokenizedContent.stream().filter(urlValidator::isValid).count();
+        return urlCount > 0;
+    }
 
-            url_intake.toURI();
+    /**
+     *
+     * @param message
+     * @return
+     */
+    static String[] getUrlsArray (Message message ) {
 
-            return true;
+        String content = message.getContent();
+        String [] tokenizedContentArray = content.split("\\s");
+        String [] validatorSchemes = { "https", "http" };
+        UrlValidator urlValidator = new UrlValidator ( validatorSchemes );
+        ArrayList<String> urlsList = new ArrayList<>();
 
-        } catch (Exception e) { return false; }
+        for ( String token : tokenizedContentArray ) {
+            if ( urlValidator.isValid (token) ) {
+                urlsList.add(token);
+            }
+        }
+        return urlsList.toArray(new String[0]);
     }
 
     /**
@@ -51,7 +75,6 @@ public interface Processor {
     static String getBodySha256(String uri) throws NoSuchAlgorithmException, IOException, InterruptedException {
 
         HttpClient client = HttpClient.newHttpClient();
-
         HttpRequest request = HttpRequest.newBuilder()
                 .uri ( URI.create ( uri ) )
                 .build();
@@ -62,15 +85,11 @@ public interface Processor {
         System.out.println ( response.body() );
 
         MessageDigest md = MessageDigest.getInstance ( "SHA-256" );
-
         String text = response.body();
-
         md.update ( text.getBytes ( StandardCharsets.UTF_8 ) );
 
         byte[] digest = md.digest();
-
         String hex = String.format ( "%064x",new BigInteger ( 1, digest ) );
-
         System.out.println ( hex );
 
         return hex;
@@ -122,6 +141,7 @@ public interface Processor {
     }
 
     /**
+     * @deprecated <br>
      * getIntegrityRatingResponseCode() : <br>
      * The getIntegrityRatingResponseCode() method is a quick boolean switch, for determining the integrity of a fileScan.
      * ScanInfo.getVerboseStatus() is the determining variable -- it returns 1 when a VirusTotal scan catches a flag in
@@ -130,7 +150,8 @@ public interface Processor {
      * @param scanInfo intakes a ScanInfo object used with VirusTotal file scans.
      * @return a boolean value -- true = dirty || false = clean.
      */
-      static Boolean getIntegrityRatingResponseCode ( ScanInfo scanInfo ) {
+    @Deprecated
+    static Boolean getIntegrityRatingResponseCode ( ScanInfo scanInfo ) {
 
           Boolean verboseStatus;
 
@@ -142,16 +163,17 @@ public interface Processor {
           return verboseStatus = true;
       }
 
-    /**
+     /**
+      * @deprecated <br>
      * getIntegrityResponseFromBoolean() : <br>
      * The getIntegrityResponseFromBoolean method extends getIntegrityRatingResponseCode() and provides congruent output
      * to an object's scan integrity. In some ways unnecessary, because this could have been implemented within
-     * getIntegrityRatingResponseCode(), but in-case for future methods -- this could be useful. Mainly just practice,
-     * for increasing complicity to challenge brain.
+     * getIntegrityRatingResponseCode(), but in-case for future methods -- this could be useful.
      * @param yorn intakes a boolean, where "yorn" represents a yes-or-no determination scenario.
      * @return returns a congruent statement to the status of an integrity scan.
      */
-      static String getIntegrityResponseFromBoolean ( Boolean yorn ) {
+     @Deprecated
+     static String getIntegrityResponseFromBoolean ( Boolean yorn ) {
           String yesForSafe = "Object is seemingly safe, and VirusTotal databases indicated no suspicious flags thrown.." +
                   "However proceed with caution and use wise judgement before proceeding.";
           String noForNah = "Object has known suspicious references in VirusTotal databases. This could be a false-flag," +
@@ -164,6 +186,9 @@ public interface Processor {
           }
           return ukForUnknown;
       }
+
+
+
 
     /**
      * shutDownBot : <br>

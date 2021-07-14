@@ -3,9 +3,6 @@ package discord;
 import discord4j.common.util.Snowflake;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
-import discord4j.core.object.entity.channel.MessageChannel;
-
-import java.net.URL;
 
 
 /**
@@ -14,7 +11,7 @@ import java.net.URL;
  * contains actions the discord bot will execute, as it passively listens to the channels within it's scope. EventListener
  * is a reactive interface that only executes it's method's independently if their execution requirements are met.
  */
-public interface EventListener extends Authenticator, AutomatedScanner, Processor {
+public interface Listeners extends Authenticator, Scanners, Processor {
 
     /**
      * listenForUrls() :: <br>
@@ -44,10 +41,8 @@ public interface EventListener extends Authenticator, AutomatedScanner, Processo
 
                 Snowflake snowflake = message.getId();
 
-
-                if ( Processor.isURL ( message.getContent() ) ) {
-
-                    AutomatedScanner.scanUrls( message );
+                if ( Processor.containsUrls ( message ) ) {
+                    Scanners.scanUrls( message );
                 }
 
             });
@@ -81,9 +76,11 @@ public interface EventListener extends Authenticator, AutomatedScanner, Processo
 
                     if ( message.getAttachments().size() > 0 ) {
 
-                        System.out.println ( "The test passes and it can tell there are attachments." );
+                        System.out.println ( "Attachments detected in message. Now passing attachment into AutomatedScanner.scanAttachments()" );
 
-                        AutomatedScanner.scanAttachments(message);
+                        Scanners.scanAttachments(message);
+
+                        System.out.println ( "File scan and report message complete ");
 
                     }
                 });

@@ -79,6 +79,7 @@
       <list>
         <option value="Class" />
         <option value="package.json" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -108,10 +109,14 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Libraries" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15666667" />
+    <property name="project.structure.side.proportion" value="0.4182058" />
+    <property name="settings.editor.selected.configurable" value="project.propCompiler" />
+  </component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -121,10 +126,6 @@
   </component>
   <component name="RunManager" selected="Application.Authenticator">
     <configuration name="Authenticator" type="Application" factoryName="Application" nameIsGenerated="true">
-      <envs>
-        <env name="VIRUS_TOKEN" value="ea6a3abeef7826e4d1a6e72d413e0d1d546ca626fb2d32cdec372ca6057ab60d" />
-        <env name="DISCORD_TOKEN" value="ODM1NzI1NDExOTQxMDg5MzAx.YITn8Q.GrzNAyoKCnSha7UYQxnBGQtmmoo" />
-      </envs>
       <option name="MAIN_CLASS_NAME" value="discord.Authenticator" />
       <module name="dbvt.main" />
       <extension name="coverage">
@@ -137,41 +138,61 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+    <configuration name="MainTests" type="Application" factoryName="Application" nameIsGenerated="true">
+      <envs>
+        <env name="VIRUS_TOKEN" value="ea6a3abeef7826e4d1a6e72d413e0d1d546ca626fb2d32cdec372ca6057ab60d" />
+        <env name="DISCORD_TOKEN" value="ODM1NzI1NDExOTQxMDg5MzAx.YITn8Q.udmLSxr8Ag-9oBbYtYfzQJX91m4" />
+      </envs>
+      <option name="MAIN_CLASS_NAME" value="MainTests" />
+      <module name="dbvt.test" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UnitTests" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <envs>
+        <env name="VIRUS_TOKEN" value="ea6a3abeef7826e4d1a6e72d413e0d1d546ca626fb2d32cdec372ca6057ab60d" />
+        <env name="DISCORD_TOKEN" value="ODM1NzI1NDExOTQxMDg5MzAx.YITn8Q.udmLSxr8Ag-9oBbYtYfzQJX91m4" />
+      </envs>
+      <option name="MAIN_CLASS_NAME" value="UnitTests" />
+      <module name="dbvt.test" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="dbs [buildDependents]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="MainTests.separatedUrlsFromTokenizedContent" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
+        <option name="scriptParameters" value="--tests &quot;MainTests.separatedUrlsFromTokenizedContent&quot;" />
         <option name="taskDescriptions">
           <list />
         </option>
         <option name="taskNames">
           <list>
-            <option value="buildDependents" />
+            <option value=":test" />
           </list>
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="dbs [buildNeeded]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="dbs [assemble]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -182,7 +203,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="buildNeeded" />
+            <option value="assemble" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -256,19 +277,22 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Application.MainTests" />
       <item itemvalue="Application.Authenticator" />
+      <item itemvalue="Application.UnitTests" />
       <item itemvalue="Gradle.dbs [clean]" />
       <item itemvalue="Gradle.dbs [build]" />
-      <item itemvalue="Gradle.dbs [buildNeeded]" />
-      <item itemvalue="Gradle.dbs [buildDependents]" />
       <item itemvalue="Gradle.dbs [wrapper]" />
+      <item itemvalue="Gradle.dbs [assemble]" />
+      <item itemvalue="Gradle.MainTests.separatedUrlsFromTokenizedContent" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.dbs [wrapper]" />
+        <item itemvalue="Application.UnitTests" />
+        <item itemvalue="Gradle.MainTests.separatedUrlsFromTokenizedContent" />
         <item itemvalue="Gradle.dbs [build]" />
-        <item itemvalue="Gradle.dbs [buildDependents]" />
-        <item itemvalue="Gradle.dbs [buildNeeded]" />
+        <item itemvalue="Gradle.dbs [assemble]" />
+        <item itemvalue="Gradle.dbs [wrapper]" />
       </list>
     </recent_temporary>
   </component>
@@ -288,11 +312,36 @@
       <workItem from="1624826497319" duration="7742000" />
       <workItem from="1624836620607" duration="592000" />
       <workItem from="1624856474914" duration="917000" />
-      <workItem from="1624857447660" duration="1285000" />
+      <workItem from="1624857447660" duration="4539000" />
+      <workItem from="1624897802866" duration="1907000" />
+      <workItem from="1624933586324" duration="1287000" />
+      <workItem from="1625780389490" duration="790000" />
+      <workItem from="1625781205026" duration="5152000" />
+      <workItem from="1625786641162" duration="7860000" />
+      <workItem from="1625802902688" duration="9856000" />
+      <workItem from="1626142667952" duration="3270000" />
+      <workItem from="1626243494465" duration="15065000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/test/java/UnitTests.java</url>
+          <line>77</line>
+          <properties class="UnitTests" method="main">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/dbvt$MainTests.ic" NAME="MainTests Coverage Results" MODIFIED="1625805599129" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

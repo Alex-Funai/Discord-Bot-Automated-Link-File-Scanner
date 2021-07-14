@@ -22,6 +22,8 @@ import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.apache.commons.io.FileUtils;
 
 /**
@@ -32,7 +34,7 @@ import org.apache.commons.io.FileUtils;
  * to include more information. Currently seems like otx.AlienVault mainly provides pulse information (pulses are user managed
  * events and records for threat intelligence).
  */
-public interface AutomatedScanner extends Processor, Authenticator {
+public interface Scanners extends Processor, Authenticator {
 
     /**
      * scanUrls() : <br>
@@ -41,8 +43,6 @@ public interface AutomatedScanner extends Processor, Authenticator {
      * </ul>
      */
       static void scanUrls(Message message) {
-
-          String [] urls = ( message.getContent() ).split ( " " );
 
         try {
             VirusTotalConfig
@@ -53,16 +53,20 @@ public interface AutomatedScanner extends Processor, Authenticator {
 
             Snowflake snowflake = message.getId();
 
-            message.delete ( snowflake.asString() ).subscribe();
+            System.out.println(message.getData());
 
 
+            message.delete (snowflake.asString()
+            ).subscribe();
+
+            String [] urls = Processor.getUrlsArray(message);
             FileScanReport[] reports = virusTotalRef.getUrlScanReport(urls, false);
-
+            AtomicInteger count = new AtomicInteger();
 
             for ( FileScanReport report : reports ) {
-
-                if ( report.getResponseCode() == 0 ) {
-                    System.out.println ( "Verbose Msg :\t" + report.getVerboseMessage() ); continue;
+                if (report.getResponseCode() == 0) {
+                    System.out.println("Verbose Msg :\t" + report.getVerboseMessage());
+                    continue;
                 }
 
                 MessageChannel channel = message
@@ -70,84 +74,38 @@ public interface AutomatedScanner extends Processor, Authenticator {
                         .block();
 
                 String thisUser = message.getData().author().username().toString();
+                System.out.println("Now creating report embed message with results to relative channel");
 
                 assert channel != null;
-
                 URL authorURL = new URL("https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg");
-                channel.createEmbed ( spec -> spec
 
-                        .setColor (
-                                Processor.getMessageColor (report)
-                        )
-
+                channel.createEmbed(spec -> spec
+                        .setColor(Processor.getMessageColor(report))
                         .setAuthor(
-                                "URL Scan Report: ", report.getPermalink(), "https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg"
+                                "URL Scan Report: ",
+                                report.getPermalink(),
+                                "https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg")
+                        .setImage("https://www.virustotal.com/gui/images/vt-enterprise.svg")
+                        .setTitle(urls[count.getAndAdd(1)])
+                        .setUrl(report.getResource())
+                        .setDescription("__Message:__ \n" + message.getContent()
                         )
-
-                      .setImage(
-                                "https://www.virustotal.com/gui/images/vt-enterprise.svg"
-                        )
-
-                        .setTitle(
-                                Arrays.toString( urls )
-                        )
-
-                        .setUrl(
-                                report.getResource()
-                        )
-
-                        .setDescription(
-                                Processor.getIntegrityRatingPositives(report)
-                        )
-
                         .addField(
-                                "[Submission]" ,
-                                "**Author: ** \t" + message.getData().author().username().toString() + "\n"
-                                    + "**Discriminator: ** \t" + message.getData().author().discriminator().toString() + "\n"
-                                    + "**Date: ** \t" + report.getScanDate(), true
-                        )
-
+                                "__Submission:__",
+                                "Author:  \t" + message.getData().author().username().toString() + "\n"
+                                        + "Discriminator:  \t" + message.getData().author().discriminator().toString() + "\n"
+                                        + "Date:  \t" + report.getScanDate(), true)
                         .addField(
-                                "[Statistics]",
-                                "**Malicious Flags: ** \t" + report.getPositives() + "\n"
-                                    + "**Databases Referenced: ** \t" + report.getTotal() + "\n"
-                                    + "**Response Code: ** \t" + report.getResponseCode(), true
-                        )
-
+                                "__Statistics:__",
+                                "Malicious Flags:  \t" + report.getPositives() + "\n"
+                                        + "Databases Referenced:  \t" + report.getTotal() + "\n"
+                                        + "Response Code:  \t" + report.getResponseCode(), true)
                         .setFooter(
-                                "ID: " + report.getScanId(),"https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg"
-
-                        )
-                        .setTimestamp(
-                                Instant.now()
-                        )
+                                report.getScanId(),
+                                "https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg")
+                        .setTimestamp(Instant.now())
                 ).block();
-
-
-                // CONSOLE INFORMATION: [start]
-                System.out.println("MD5 :\t" + report.getMd5());
-                System.out.println("Perma link :\t" + report.getPermalink());
-                System.out.println("Resource :\t" + report.getResource());
-                System.out.println("Scan Date :\t" + report.getScanDate());
-                System.out.println("Scan Id :\t" + report.getScanId());
-                System.out.println("SHA1 :\t" + report.getSha1());
-                System.out.println("SHA256 :\t" + report.getSha256());
-                System.out.println("Verbose Msg :\t" + report.getVerboseMessage());
-                System.out.println("Response Code :\t" + report.getResponseCode());
-                System.out.println("Positives :\t" + report.getPositives());
-                System.out.println("Total :\t" + report.getTotal());
-
-                Map<String, VirusScanInfo> scans = report.getScans();
-                for (String key : scans.keySet()) {
-                    VirusScanInfo virusInfo = scans.get(key);
-                    System.out.println("Scanner : " + key);
-                    System.out.println("\t\t Result : " + virusInfo.getResult());
-                    System.out.println("\t\t Update : " + virusInfo.getUpdate());
-                    System.out.println("\t\t Version :" + virusInfo.getVersion());
-                // Console Information: [end]
-                }
             }
-
         } catch (APIKeyNotFoundException ex) {
             System.err.println("API Key not found! " + ex.getMessage());
         } catch (UnsupportedEncodingException ex) {
@@ -193,7 +151,10 @@ public interface AutomatedScanner extends Processor, Authenticator {
 
             FileUtils.copyURLToFile ( attachmentURL, attachmentFile);
 
-            ScanInfo scanInformation = virusTotalRef.scanFile ( attachmentFile );
+            System.out.println(message.getData());
+
+            ScanInfo scanInformation = virusTotalRef
+                    .scanFile ( attachmentFile );
 
             Snowflake snowflake = message.getId();
 
@@ -204,6 +165,8 @@ public interface AutomatedScanner extends Processor, Authenticator {
             MessageChannel channel = message
                     .getChannel()
                     .block();
+
+            System.out.println ( "Now creating report embed message with results to relative channel");
 
             assert channel != null;
             channel.createEmbed ( spec -> spec
@@ -227,27 +190,26 @@ public interface AutomatedScanner extends Processor, Authenticator {
                                     .attachments()
                                     .get(0)
                                     .url())
-/*                    .setDescription (
-                            Processor.getIntegrityResponseFromBoolean (
-                                    Processor.getIntegrityRatingResponseCode ( scanInformation )
-                            ).toString()
-                    )*/
+                    .setDescription (
+                            "**Comment: **" +
+                            message.getData().content()
+                    )
                     .addField (
-                            "[Submission] " ,
-                            "**Author: **" + message.getData().author().username() + "\n"
-                            + "**Discriminator: ** " + message.getData().author().discriminator() + "\n"
-                            + "**Date: **" + message.getData().timestamp(),
+                            "__Submission:__" ,
+                            "Author: " + message.getData().author().username() + "\n"
+                            + "Discriminator:  " + message.getData().author().discriminator() + "\n"
+                            + "Date: " + message.getData().timestamp(),
                             true
                     )
                     .addField (
-                            "[Hashes]",
-                            "**SHA1: **" + scanInformation.getSha1() + "\n"
-                                + "**SHA256: **" + scanInformation.getSha256() + "\n"
-                                + "**MD5: **" + scanInformation.getMd5(),
+                            "__Hashes:__",
+                            "SHA1: " + scanInformation.getSha1() + "\n"
+                                + "SHA256: " + scanInformation.getSha256() + "\n"
+                                + "MD5: " + scanInformation.getMd5(),
                             true
                     )
                     .setFooter (
-                            "Id: " + scanInformation.getScanId(),
+                            "Scan ID: " + scanInformation.getScanId(),
                             "https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg"
                     )
                     .setTimestamp (
@@ -257,9 +219,11 @@ public interface AutomatedScanner extends Processor, Authenticator {
 
             try {
                 Path filePath = attachmentFile.toPath();
-                Files.delete(filePath);
-            } catch (NoSuchFileException e) {
-                System.out.println ( "ERROR: file path is invalid, or does no exist");
+
+                Files.delete ( filePath );
+
+            } catch ( NoSuchFileException e ) {
+                System.out.println ( "ERROR: file path is invalid, or does no exist" );
             }
 
         } catch (APIKeyNotFoundException ex) {
