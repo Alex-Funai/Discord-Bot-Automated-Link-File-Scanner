@@ -42,7 +42,7 @@ public interface Scanners extends Processor, Authenticator {
      * retrieved from VirusTotal's database.
      * </ul>
      */
-      static void scanUrls(Message message) {
+      static void scanUrls (Message message) {
 
         try {
             VirusTotalConfig
@@ -52,44 +52,36 @@ public interface Scanners extends Processor, Authenticator {
             VirustotalPublicV2 virusTotalRef = new VirustotalPublicV2Impl();
 
             Snowflake snowflake = message.getId();
-
-            System.out.println(message.getData());
-
-
-            message.delete (snowflake.asString()
-            ).subscribe();
+            message.delete (snowflake.asString())
+                    .subscribe();
 
             String [] urls = Processor.getUrlsArray(message);
             FileScanReport[] reports = virusTotalRef.getUrlScanReport(urls, false);
             AtomicInteger count = new AtomicInteger();
 
-            for ( FileScanReport report : reports ) {
+            for (FileScanReport report : reports) {
                 if (report.getResponseCode() == 0) {
                     System.out.println("Verbose Msg :\t" + report.getVerboseMessage());
                     continue;
                 }
 
-                MessageChannel channel = message
-                        .getChannel()
+                MessageChannel channel = message.getChannel()
                         .block();
-
-                String thisUser = message.getData().author().username().toString();
-                System.out.println("Now creating report embed message with results to relative channel");
 
                 assert channel != null;
                 URL authorURL = new URL("https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg");
-
                 channel.createEmbed(spec -> spec
-                        .setColor(Processor.getMessageColor(report))
+                        .setColor(Processor.getMessageColor(report)
+                        )
                         .setAuthor(
                                 "URL Scan Report: ",
                                 report.getPermalink(),
-                                "https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg")
+                                "https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg"
+                        )
                         .setImage("https://www.virustotal.com/gui/images/vt-enterprise.svg")
                         .setTitle(urls[count.getAndAdd(1)])
                         .setUrl(report.getResource())
-                        .setDescription("__Message:__ \n" + message.getContent()
-                        )
+                        .setDescription("__Message:__ \n" + message.getContent())
                         .addField(
                                 "__Submission:__",
                                 "Author:  \t" + message.getData().author().username().toString() + "\n"
@@ -153,24 +145,17 @@ public interface Scanners extends Processor, Authenticator {
 
             System.out.println(message.getData());
 
-            ScanInfo scanInformation = virusTotalRef
-                    .scanFile ( attachmentFile );
+            ScanInfo scanInformation = virusTotalRef.scanFile ( attachmentFile );
 
             Snowflake snowflake = message.getId();
-
-            message.delete (
-                    snowflake.asString()
+            message.delete (snowflake.asString()
             ).subscribe();
 
-            MessageChannel channel = message
-                    .getChannel()
+            MessageChannel channel = message.getChannel()
                     .block();
-
-            System.out.println ( "Now creating report embed message with results to relative channel");
 
             assert channel != null;
             channel.createEmbed ( spec -> spec
-
                     .setColor (
                             Color.BLACK
                     )
@@ -219,13 +204,11 @@ public interface Scanners extends Processor, Authenticator {
 
             try {
                 Path filePath = attachmentFile.toPath();
-
                 Files.delete ( filePath );
 
             } catch ( NoSuchFileException e ) {
                 System.out.println ( "ERROR: file path is invalid, or does no exist" );
             }
-
         } catch (APIKeyNotFoundException ex) {
             System.err.println("API Key not found! " + ex.getMessage());
         } catch (UnsupportedEncodingException ex) {
@@ -236,5 +219,4 @@ public interface Scanners extends Processor, Authenticator {
             System.err.println("Something Bad Happened! " + ex.getMessage());
         }
     }
-
 }

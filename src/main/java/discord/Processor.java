@@ -42,9 +42,12 @@ public interface Processor {
     }
 
     /**
-     *
-     * @param message
-     * @return
+     * getUrlsArray() <br>
+     * The getUrlsArray() method will tokenize return of message.getContent() into an ArrayList, validate URL's
+     * in contrast to text, and then add them to a string. getUrlsArray() method is used for prepping a message intended
+     * to be input to urlScanner().
+     * @param message a user's discord message.
+     * @return a String[] to use with getUrlsArray().
      */
     static String[] getUrlsArray (Message message ) {
 
@@ -60,9 +63,9 @@ public interface Processor {
             }
         }
         return urlsList.toArray(new String[0]);
-    }//
+    }
 
-    /**
+    /** @deprecated <br>
      * getBodySha256() : <br>
      * The getBodySha256() method will process a uri and performs a http GET request, to retrieve the objects' HTML body,
      * and then converts it to checksum-SHA256. <br><br>
@@ -72,6 +75,7 @@ public interface Processor {
      * @throws IOException
      * @throws InterruptedException
      */
+    @Deprecated
     static String getBodySha256(String uri) throws NoSuchAlgorithmException, IOException, InterruptedException {
 
         HttpClient client = HttpClient.newHttpClient();

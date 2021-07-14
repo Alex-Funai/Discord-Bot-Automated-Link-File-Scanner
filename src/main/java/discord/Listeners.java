@@ -36,15 +36,13 @@ public interface Listeners extends Authenticator, Scanners, Processor {
             .on ( MessageCreateEvent.class )
             .subscribe ( event -> {
 
-               final Message message = event
-                        .getMessage();
+               final Message message = event.getMessage();
 
                 Snowflake snowflake = message.getId();
 
-                if ( Processor.containsUrls ( message ) ) {
-                    Scanners.scanUrls( message );
+                if ( Processor.containsUrls (message) ) {
+                    Scanners.scanUrls(message);
                 }
-
             });
      }
 
@@ -75,13 +73,7 @@ public interface Listeners extends Authenticator, Scanners, Processor {
                     Message message = event.getMessage();
 
                     if ( message.getAttachments().size() > 0 ) {
-
-                        System.out.println ( "Attachments detected in message. Now passing attachment into AutomatedScanner.scanAttachments()" );
-
                         Scanners.scanAttachments(message);
-
-                        System.out.println ( "File scan and report message complete ");
-
                     }
                 });
     }

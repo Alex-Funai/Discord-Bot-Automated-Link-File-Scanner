@@ -24,19 +24,12 @@ import virustotal.virustotalv2.VirustotalPublicV2Impl;
  */
 public interface Authenticator extends Processor {
 
-    DiscordClient client = DiscordClient.create(
-            System.getenv("DISCORD_TOKEN"));
-
-    GatewayDiscordClient gateway = client
-            .login()
-            .block();
+    DiscordClient client = DiscordClient.create(System.getenv("DISCORD_TOKEN"));
+    GatewayDiscordClient gateway = client.login().block();
 
     default VirustotalPublicV2 vT() throws APIKeyNotFoundException {
 
-        VirusTotalConfig
-                .getConfigInstance()
-                .setVirusTotalAPIKey(
-                        System.getenv("VIRUS_TOKEN"));
+        VirusTotalConfig.getConfigInstance().setVirusTotalAPIKey(System.getenv("VIRUS_TOKEN"));
 
         return new VirustotalPublicV2Impl();
     }
@@ -52,14 +45,9 @@ public interface Authenticator extends Processor {
     public static void main ( String... args ) {
 
         assert gateway != null;
-
         Commands.pingPong();
-
         Listeners.listenForUrls();
         Listeners.listenForAttachments();
-
         gateway.onDisconnect().block();
-
-
     }
 }

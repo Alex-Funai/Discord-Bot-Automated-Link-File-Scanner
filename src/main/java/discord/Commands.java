@@ -42,23 +42,18 @@ public interface Commands extends Listeners {
      */
     static void pingPong() {
 
-
         assert gateway != null;
 
-        gateway.on (MessageCreateEvent.class ).subscribe (event -> {
-
+        gateway.on ( MessageCreateEvent.class ).subscribe (event -> {
             final Message message = event.getMessage();
-
-            if ( "!ping".equals ( message.getContent() ) ) {
-
+            if ( "!ping".equals (message.getContent()) ) {
                 final MessageChannel channel = message
                         .getChannel()
                         .block();
 
                 assert channel != null;
-                channel.createMessage(
-                        "pong"
-                ).block();
+                channel.createMessage("pong")
+                        .block();
             }
         });
 
