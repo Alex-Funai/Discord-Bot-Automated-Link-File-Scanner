@@ -1,5 +1,6 @@
 package discord;
 
+import discord4j.common.util.Snowflake;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.User;
@@ -56,6 +57,19 @@ public interface Commands extends Listeners {
                         .block();
             }
         });
+    }
 
+    static void purgeChannel() {
+        assert gateway !=null;
+        gateway.on (MessageCreateEvent.class).subscribe (event -> {
+            final Message message = event.getMessage();
+            if ( "!purge".equals(message.getContent())) {
+                final MessageChannel channel = message.getChannel().block();
+                assert channel != null;
+                channel.getMessagesBefore(Snowflake.of(Instant.now()))
+                        .flatMap(Message::delete)
+                        .blockLast();
+            }
+        });
     }
 }

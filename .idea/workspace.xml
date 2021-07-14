@@ -124,8 +124,12 @@
       <recent name="D:\Projects\dbs\src\main\java\discord" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.dbs [model]">
+  <component name="RunManager" selected="Application.Authenticator">
     <configuration name="Authenticator" type="Application" factoryName="Application" nameIsGenerated="true">
+      <envs>
+        <env name="DISCORD_TOKEN" value="ODM1NzI1NDExOTQxMDg5MzAx.YITn8Q.CubX9UfyYcuf7fXwqENmIeO7iqg" />
+        <env name="VIRUS_TOKEN" value="ea6a3abeef7826e4d1a6e72d413e0d1d546ca626fb2d32cdec372ca6057ab60d" />
+      </envs>
       <option name="MAIN_CLASS_NAME" value="discord.Authenticator" />
       <module name="dbvt.main" />
       <extension name="coverage">
@@ -141,7 +145,7 @@
     <configuration name="MainTests" type="Application" factoryName="Application" nameIsGenerated="true">
       <envs>
         <env name="VIRUS_TOKEN" value="ea6a3abeef7826e4d1a6e72d413e0d1d546ca626fb2d32cdec372ca6057ab60d" />
-        <env name="DISCORD_TOKEN" value="ODM1NzI1NDExOTQxMDg5MzAx.YITn8Q.udmLSxr8Ag-9oBbYtYfzQJX91m4" />
+        <env name="DISCORD_TOKEN" value="ODM1NzI1NDExOTQxMDg5MzAx.YITn8Q.2assfttbk-Kgn-_jP8T-E_vRUaA" />
       </envs>
       <option name="MAIN_CLASS_NAME" value="MainTests" />
       <module name="dbvt.test" />
@@ -181,7 +185,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="dbs [components]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="dbs [components]" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -302,7 +306,6 @@
         <item itemvalue="Gradle.dbs [prepareKotlinBuildScriptModel]" />
         <item itemvalue="Gradle.dbs [processResources]" />
         <item itemvalue="Gradle.dbs [dependentComponents]" />
-        <item itemvalue="Gradle.dbs [components]" />
       </list>
     </recent_temporary>
   </component>
@@ -330,7 +333,7 @@
       <workItem from="1625786641162" duration="7860000" />
       <workItem from="1625802902688" duration="9856000" />
       <workItem from="1626142667952" duration="3270000" />
-      <workItem from="1626243494465" duration="16866000" />
+      <workItem from="1626243494465" duration="19472000" />
     </task>
     <servers />
   </component>

@@ -46,8 +46,10 @@ public interface Authenticator extends Processor {
 
         assert gateway != null;
         Commands.pingPong();
+        Commands.purgeChannel();
         Listeners.listenForUrls();
         Listeners.listenForAttachments();
         gateway.onDisconnect().block();
+
     }
 }
