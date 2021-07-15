@@ -11,7 +11,7 @@ import discord4j.core.object.entity.Message;
  * contains actions the discord bot will execute, as it passively listens to the channels within it's scope. EventListener
  * is a reactive interface that only executes it's method's independently if their execution requirements are met.
  */
-public interface Listeners extends Authenticator, Scanners, Processor {
+public interface Listeners extends Authenticator, Scanners, Processes {
 
     /**
      * listenForUrls() :: <br>
@@ -40,7 +40,7 @@ public interface Listeners extends Authenticator, Scanners, Processor {
 
                 Snowflake snowflake = message.getId();
 
-                if ( Processor.containsUrls (message) ) {
+                if ( Processes.containsUrls (message) ) {
                     Scanners.scanUrls(message);
                 }
             });

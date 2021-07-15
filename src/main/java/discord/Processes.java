@@ -22,7 +22,7 @@ import java.util.List;
 import static discord.Authenticator.gateway;
 
 
-public interface Processor {
+public interface Processes {
 
     /**
      * containsUrls() :: <br>

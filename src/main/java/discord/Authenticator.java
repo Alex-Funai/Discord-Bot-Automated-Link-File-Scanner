@@ -22,7 +22,7 @@ import virustotal.virustotalv2.VirustotalPublicV2Impl;
  *         <i> (example:  private final String TOKEN = "$DISCORD_TOKEN"). </i> </li>
  * </ol>
  */
-public interface Authenticator extends Processor {
+public interface Authenticator extends Processes {
 
     DiscordClient client = DiscordClient.create(System.getenv("DISCORD_TOKEN"));
     GatewayDiscordClient gateway = client.login().block();

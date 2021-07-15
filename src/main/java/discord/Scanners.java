@@ -6,7 +6,6 @@ import discord4j.core.object.entity.channel.MessageChannel;
 import discord4j.rest.util.Color;
 import virustotal.virustotal.dto.FileScanReport;
 import virustotal.virustotal.dto.ScanInfo;
-import virustotal.virustotal.dto.VirusScanInfo;
 import virustotal.virustotal.exception.UnauthorizedAccessException;
 import virustotal.virustotalv2.VirustotalPublicV2;
 import virustotal.virustotal.exception.APIKeyNotFoundException;
@@ -18,10 +17,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.io.FileUtils;
@@ -34,7 +30,7 @@ import org.apache.commons.io.FileUtils;
  * to include more information. Currently seems like otx.AlienVault mainly provides pulse information (pulses are user managed
  * events and records for threat intelligence).
  */
-public interface Scanners extends Processor, Authenticator {
+public interface Scanners extends Processes, Authenticator {
 
     /**
      * scanUrls() : <br>
@@ -47,16 +43,21 @@ public interface Scanners extends Processor, Authenticator {
         try {
             VirusTotalConfig
                     .getConfigInstance()
-                    .setVirusTotalAPIKey ( System.getenv( "VIRUS_TOKEN" ) );
+                    .setVirusTotalAPIKey (System.getenv("VIRUS_TOKEN") );
 
             VirustotalPublicV2 virusTotalRef = new VirustotalPublicV2Impl();
 
+            // Retrieve current message, as Snowflake, and retrieve it's ID.
             Snowflake snowflake = message.getId();
+            // Delete the current message from the Discord channel.
             message.delete (snowflake.asString())
                     .subscribe();
 
-            String [] urls = Processor.getUrlsArray(message);
-            FileScanReport[] reports = virusTotalRef.getUrlScanReport(urls, false);
+            // Initialize array for storing tokenized urls from the message's content.
+            String [] urls = Processes.getUrlsArray(message);
+            // Initialize report elements array, and take in the tokenized urls array.
+            FileScanReport[] reports = virusTotalRef.getUrlScanReport (urls, false);
+            // AtomicInteger to enable incrementing variable for loop count in enhanced-for:each loop.
             AtomicInteger count = new AtomicInteger();
 
             for (FileScanReport report : reports) {
@@ -65,14 +66,17 @@ public interface Scanners extends Processor, Authenticator {
                     continue;
                 }
 
+                // Store current message's channel, as channel object, for-use processing where to send report message.
                 MessageChannel channel = message.getChannel()
                         .block();
 
                 assert channel != null;
+                // Retrieve the desired avatar image for the report embed message, and store it for-use later.
                 URL authorURL = new URL("https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg");
+
+                // Define fields for embedded output report message.
                 channel.createEmbed(spec -> spec
-                        .setColor(Processor.getMessageColor(report)
-                        )
+                        .setColor(Processes.getMessageColor (report))
                         .setAuthor(
                                 "URL Scan Report: ",
                                 report.getPermalink(),
@@ -81,7 +85,7 @@ public interface Scanners extends Processor, Authenticator {
                         .setImage("https://www.virustotal.com/gui/images/vt-enterprise.svg")
                         .setTitle(urls[count.getAndAdd(1)])
                         .setUrl(report.getResource())
-                        .setDescription("__Message:__ \n" + message.getContent())
+                        .setDescription ("__Message:__ \n" + message.getContent())
                         .addField(
                                 "__Submission:__",
                                 "Author:  \t" + message.getData().author().username().toString() + "\n"
@@ -117,13 +121,13 @@ public interface Scanners extends Processor, Authenticator {
      *
      * @param message intakes a discord message that contains attachments.
      */
-    static void scanAttachments ( Message message ) {
+    static void scanAttachments (Message message) {
 
         try {
             VirusTotalConfig
                     .getConfigInstance()
                     .setVirusTotalAPIKey (
-                            System.getenv ( "VIRUS_TOKEN" ) );
+                            System.getenv ("VIRUS_TOKEN" ));
 
             VirustotalPublicV2 virusTotalRef = new VirustotalPublicV2Impl();
 
@@ -141,21 +145,22 @@ public interface Scanners extends Processor, Authenticator {
                             .get(0)
                             .filename());
 
-            FileUtils.copyURLToFile ( attachmentURL, attachmentFile);
+            FileUtils.copyURLToFile (attachmentURL, attachmentFile);
 
-            System.out.println(message.getData());
+            System.out.println (message.getData());
 
-            ScanInfo scanInformation = virusTotalRef.scanFile ( attachmentFile );
+            ScanInfo scanInformation = virusTotalRef.scanFile (attachmentFile);
 
             Snowflake snowflake = message.getId();
-            message.delete (snowflake.asString()
-            ).subscribe();
+            message.delete (snowflake.asString())
+                    .subscribe();
 
             MessageChannel channel = message.getChannel()
                     .block();
 
+            // Define fields for embedded output report message.
             assert channel != null;
-            channel.createEmbed ( spec -> spec
+            channel.createEmbed (spec -> spec
                     .setColor (
                             Color.BLACK
                     )
@@ -176,7 +181,7 @@ public interface Scanners extends Processor, Authenticator {
                                     .get(0)
                                     .url())
                     .setDescription (
-                            "**Comment: **" +
+                            "__Comment:__ \n" +
                             message.getData().content()
                     )
                     .addField (
@@ -194,21 +199,19 @@ public interface Scanners extends Processor, Authenticator {
                             true
                     )
                     .setFooter (
-                            "Scan ID: " + scanInformation.getScanId(),
+                            scanInformation.getScanId(),
                             "https://pbs.twimg.com/profile_images/903041019331174400/BIaetD1J_400x400.jpg"
                     )
-                    .setTimestamp (
-                            Instant.now()
-                    )
+                    .setTimestamp (Instant.now())
             ).block();
 
             try {
                 Path filePath = attachmentFile.toPath();
-                Files.delete ( filePath );
-
+                Files.delete (filePath);
             } catch ( NoSuchFileException e ) {
                 System.out.println ( "ERROR: file path is invalid, or does no exist" );
             }
+
         } catch (APIKeyNotFoundException ex) {
             System.err.println("API Key not found! " + ex.getMessage());
         } catch (UnsupportedEncodingException ex) {

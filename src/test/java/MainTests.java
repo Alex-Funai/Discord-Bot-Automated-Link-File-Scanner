@@ -1,25 +1,6 @@
-import discord.Scanners;
-import discord.Processor;
-import discord4j.common.util.Snowflake;
-import discord4j.core.DiscordClient;
-import discord4j.core.GatewayDiscordClient;
-import discord4j.core.event.domain.message.MessageCreateEvent;
-import discord4j.core.object.entity.Message;
-import discord4j.core.object.entity.channel.MessageChannel;
 import org.apache.commons.validator.routines.UrlValidator;
-import virustotal.virustotal.dto.FileScanReport;
-import virustotal.virustotal.exception.APIKeyNotFoundException;
-import virustotal.virustotal.exception.UnauthorizedAccessException;
-import virustotal.virustotalv2.VirusTotalConfig;
-import virustotal.virustotalv2.VirustotalPublicV2;
-import virustotal.virustotalv2.VirustotalPublicV2Impl;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.time.Instant;
 import java.util.*;
-
-import static discord.Authenticator.gateway;
 
 
 public interface MainTests {

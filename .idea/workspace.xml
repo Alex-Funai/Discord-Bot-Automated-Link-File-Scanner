@@ -124,12 +124,8 @@
       <recent name="D:\Projects\dbs\src\main\java\discord" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Authenticator">
+  <component name="RunManager" selected="Gradle.dbs [assemble]">
     <configuration name="Authenticator" type="Application" factoryName="Application" nameIsGenerated="true">
-      <envs>
-        <env name="DISCORD_TOKEN" value="ODM1NzI1NDExOTQxMDg5MzAx.YITn8Q.CubX9UfyYcuf7fXwqENmIeO7iqg" />
-        <env name="VIRUS_TOKEN" value="ea6a3abeef7826e4d1a6e72d413e0d1d546ca626fb2d32cdec372ca6057ab60d" />
-      </envs>
       <option name="MAIN_CLASS_NAME" value="discord.Authenticator" />
       <module name="dbvt.main" />
       <extension name="coverage">
@@ -143,10 +139,6 @@
       </method>
     </configuration>
     <configuration name="MainTests" type="Application" factoryName="Application" nameIsGenerated="true">
-      <envs>
-        <env name="VIRUS_TOKEN" value="ea6a3abeef7826e4d1a6e72d413e0d1d546ca626fb2d32cdec372ca6057ab60d" />
-        <env name="DISCORD_TOKEN" value="ODM1NzI1NDExOTQxMDg5MzAx.YITn8Q.2assfttbk-Kgn-_jP8T-E_vRUaA" />
-      </envs>
       <option name="MAIN_CLASS_NAME" value="MainTests" />
       <module name="dbvt.test" />
       <method v="2">
@@ -163,6 +155,69 @@
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
+    </configuration>
+    <configuration name="dbs [assemble]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="assemble" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="dbs [buildNeeded]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="buildNeeded" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="dbs [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
     </configuration>
     <configuration name="dbs [clean]" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
@@ -206,7 +261,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="dbs [dependentComponents]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="dbs [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -217,7 +272,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="dependentComponents" />
+            <option value="jar" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -227,7 +282,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="dbs [model]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="dbs [wrapper]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -238,49 +293,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="model" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
-    <configuration name="dbs [prepareKotlinBuildScriptModel]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="prepareKotlinBuildScriptModel" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
-    <configuration name="dbs [processResources]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="processResources" />
+            <option value="wrapper" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -295,17 +308,19 @@
       <item itemvalue="Application.Authenticator" />
       <item itemvalue="Gradle.dbs [clean]" />
       <item itemvalue="Gradle.dbs [components]" />
-      <item itemvalue="Gradle.dbs [dependentComponents]" />
-      <item itemvalue="Gradle.dbs [processResources]" />
-      <item itemvalue="Gradle.dbs [prepareKotlinBuildScriptModel]" />
-      <item itemvalue="Gradle.dbs [model]" />
+      <item itemvalue="Gradle.dbs [assemble]" />
+      <item itemvalue="Gradle.dbs [build]" />
+      <item itemvalue="Gradle.dbs [jar]" />
+      <item itemvalue="Gradle.dbs [buildNeeded]" />
+      <item itemvalue="Gradle.dbs [wrapper]" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.dbs [model]" />
-        <item itemvalue="Gradle.dbs [prepareKotlinBuildScriptModel]" />
-        <item itemvalue="Gradle.dbs [processResources]" />
-        <item itemvalue="Gradle.dbs [dependentComponents]" />
+        <item itemvalue="Gradle.dbs [assemble]" />
+        <item itemvalue="Gradle.dbs [build]" />
+        <item itemvalue="Gradle.dbs [wrapper]" />
+        <item itemvalue="Gradle.dbs [buildNeeded]" />
+        <item itemvalue="Gradle.dbs [jar]" />
       </list>
     </recent_temporary>
   </component>
@@ -333,7 +348,7 @@
       <workItem from="1625786641162" duration="7860000" />
       <workItem from="1625802902688" duration="9856000" />
       <workItem from="1626142667952" duration="3270000" />
-      <workItem from="1626243494465" duration="19472000" />
+      <workItem from="1626243494465" duration="22442000" />
     </task>
     <servers />
   </component>
