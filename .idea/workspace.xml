@@ -110,10 +110,10 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15666667" />
-    <property name="project.structure.side.proportion" value="0.4182058" />
-    <property name="settings.editor.selected.configurable" value="project.propCompiler" />
+    <property name="project.structure.side.proportion" value="0.59586465" />
+    <property name="settings.editor.selected.configurable" value="gradle.compiler" />
   </component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
@@ -124,8 +124,12 @@
       <recent name="D:\Projects\dbs\src\main\java\discord" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.dbs [assemble]">
+  <component name="RunManager" selected="Gradle.dbs [clean]">
     <configuration name="Authenticator" type="Application" factoryName="Application" nameIsGenerated="true">
+      <envs>
+        <env name="DISCORD_TOKEN" value="ODM1NzI1NDExOTQxMDg5MzAx.YITn8Q.FGoqp2xukgpCK2dtVbCjpIm3dDw" />
+        <env name="VIRUS_TOKEN" value="ea6a3abeef7826e4d1a6e72d413e0d1d546ca626fb2d32cdec372ca6057ab60d" />
+      </envs>
       <option name="MAIN_CLASS_NAME" value="discord.Authenticator" />
       <module name="dbvt.main" />
       <extension name="coverage">
@@ -139,6 +143,10 @@
       </method>
     </configuration>
     <configuration name="MainTests" type="Application" factoryName="Application" nameIsGenerated="true">
+      <envs>
+        <env name="VIRUS_TOKEN" value="ea6a3abeef7826e4d1a6e72d413e0d1d546ca626fb2d32cdec372ca6057ab60d" />
+        <env name="DISCORD_TOKEN" value="ODM1NzI1NDExOTQxMDg5MzAx.YITn8Q.2assfttbk-Kgn-_jP8T-E_vRUaA" />
+      </envs>
       <option name="MAIN_CLASS_NAME" value="MainTests" />
       <module name="dbvt.test" />
       <method v="2">
@@ -168,6 +176,27 @@
         <option name="taskNames">
           <list>
             <option value="assemble" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="dbs [buildDependents]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="buildDependents" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -261,27 +290,6 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="dbs [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="jar" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
     <configuration name="dbs [wrapper]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -310,17 +318,17 @@
       <item itemvalue="Gradle.dbs [components]" />
       <item itemvalue="Gradle.dbs [assemble]" />
       <item itemvalue="Gradle.dbs [build]" />
-      <item itemvalue="Gradle.dbs [jar]" />
       <item itemvalue="Gradle.dbs [buildNeeded]" />
       <item itemvalue="Gradle.dbs [wrapper]" />
+      <item itemvalue="Gradle.dbs [buildDependents]" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.dbs [assemble]" />
         <item itemvalue="Gradle.dbs [build]" />
-        <item itemvalue="Gradle.dbs [wrapper]" />
         <item itemvalue="Gradle.dbs [buildNeeded]" />
-        <item itemvalue="Gradle.dbs [jar]" />
+        <item itemvalue="Gradle.dbs [buildDependents]" />
+        <item itemvalue="Gradle.dbs [assemble]" />
+        <item itemvalue="Gradle.dbs [wrapper]" />
       </list>
     </recent_temporary>
   </component>
@@ -348,7 +356,9 @@
       <workItem from="1625786641162" duration="7860000" />
       <workItem from="1625802902688" duration="9856000" />
       <workItem from="1626142667952" duration="3270000" />
-      <workItem from="1626243494465" duration="22442000" />
+      <workItem from="1626243494465" duration="22407000" />
+      <workItem from="1626716671392" duration="1823000" />
+      <workItem from="1626801520758" duration="2477000" />
     </task>
     <servers />
   </component>
@@ -368,6 +378,10 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/dbvt$MainTests.ic" NAME="MainTests Coverage Results" MODIFIED="1625805599129" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

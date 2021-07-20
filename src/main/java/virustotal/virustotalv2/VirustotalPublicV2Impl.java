@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package virustotal.virustotalv2;
 
 import com.google.gson.Gson;
@@ -29,6 +25,7 @@ import java.util.List;
 /**
  * @author kdkanishka@gmail.com
  */
+@SuppressWarnings("deprecation")
 public class VirustotalPublicV2Impl implements VirustotalPublicV2 {
 
     private Gson gsonProcessor;
