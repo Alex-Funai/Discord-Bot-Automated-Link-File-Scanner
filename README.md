@@ -18,7 +18,7 @@ DBS
 Discord-Bot-Automated-Link-File-Scanner, is a bot that checks the integrity of urls and file attachments, that are sent through the server. The objects are parsed through VirusTotal.com's database, and the domain, hash, or attachment is compared to VirusTotal's database -- which references over 100+ threat hunt and analyses organizations such as: AlienVault and CINSArmy. 
 
 &nbsp;&nbsp;&nbsp;&nbsp; 
-Discord-Bot-Automated-Link-File-Scanner works by utilizing Discord4j to create filtered listening lists, that reference Discord API data, and is trigger when it detects a message body containing a URL/URI verified (apache.commons) link, or if the message's attachments data value !=0.
+Discord-Bot-Automated-Link-File-Scanner works by utilizing Discord4j's gateway listener events. The gateway listener events leverage the Discord API and their response data, to determine whether or not a URL or file attachment is present. For example, if the message body contains text specified by regex to http/https/www, it will be parsed through a checkURI method (utilizing commons.apache) to test and verify it is a valid url before proceeding. When a message response contains data in the attachments field, it's value becomes 1 -- the listener will search for that indicator, and proceed to parse the attachment data, which is temporarily saved in the programs cache, then cleared, as it pushes to the Discord server and there's no need for it locally anymore. The listeners are also setup to handle comments and multiple objects simultaneously, but you may be rate limited by your api keys subscription.
 
 &nbsp;&nbsp;&nbsp;&nbsp; 
 Once Discord-Bot-Automated-Link-File-Scanner detects a link or URL, it deletes the initial user's message, to protect server members from phishing attempts, or malicious links, and very quickly ( time =< 1s) creates an embedded message with:
@@ -27,6 +27,9 @@ Once Discord-Bot-Automated-Link-File-Scanner detects a link or URL, it deletes t
 + The original users comment/messsage accompanying the object.
 + Relevant data to the scan such as: flags thrown and hashes.
 + Embed accent color for integrity, if the object appears unknown (grey/black), safe (green), or risky (red).
+
+&nbsp;&nbsp;&nbsp;&nbsp; 
+The solution isn't a primary solution or defense, but it does provide some mitigation that could affect common pc users, and large public servers that are often saturated in unknown spam.
 
 ## Abstract:
 &nbsp;&nbsp;&nbsp;&nbsp; 
