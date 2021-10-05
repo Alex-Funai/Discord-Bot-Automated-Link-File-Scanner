@@ -40,7 +40,7 @@ The idea came from visiting a public crypto discord server. I had posted a link 
 + DiscorBot API Token: (https://discord.com/developers/applications)
 ```
 
-## Built With
+## Built With:
 ```
  Discord4j-3.1.5
  kdkanishka: Virustotal-Public-API-V2.0-Client
