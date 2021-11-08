@@ -15,13 +15,13 @@ DBS
 <img align="right" width="420" height="860" src="https://user-images.githubusercontent.com/79816891/136109263-c720f9a4-aca1-416e-8411-5d7ba68a04c9.png">
 
 &nbsp;&nbsp;&nbsp;&nbsp; 
-Discord-Bot-Automated-Link-File-Scanner, is a bot that checks the integrity of urls and file attachments, that are sent through the server. The objects are parsed through VirusTotal.com's database, and the domain, hash, or attachment is compared to VirusTotal's database -- which references over 100+ threat hunt and analyses organizations such as: AlienVault and CINSArmy. 
+Discord-Bot-Automated-Link-File-Scanner, is a bot that checks the integrity of urls and file attachments sent through a Discord server. The objects are parsed through VirusTotal.com's database, and the domain, hash, or attachmentments are scanned. Virustotal's database references over 100+ other threat-analysis databases such as: otx.AlienVault, CINSArmy. The scan returns simple information such as: hashes, reverse DNS, host-ip, cidr, asc, and communal insight.
 
 &nbsp;&nbsp;&nbsp;&nbsp; 
-Discord-Bot-Automated-Link-File-Scanner works by utilizing Discord4j's gateway listener events. The gateway listener events leverage the Discord API and their response data, to determine whether or not a URL or file attachment is present. For example, if the message body contains text specified by regex to http/https/www, it will be parsed through a checkURI method (utilizing commons.apache) to test and verify it is a valid url before proceeding. When a message response contains data in the attachments field, it's value becomes 1 -- the listener will search for that indicator, and proceed to parse the attachment data, which is temporarily saved in the programs cache, then cleared, as it pushes to the Discord server and there's no need for it locally anymore. The listeners are also setup to handle comments and multiple objects simultaneously, but you may be rate limited by your api keys subscription.
+Discord-Bot-Automated-Link-File-Scanner works by utilizing Discord4j's gateway listener events. The gateway listener events leverage the Discord API's response data, and determines whether or not a URL or file attachment is present. For example, if the message's body contains text specified by regex / to http/https/www, it will get passed into a checkURI method (utilizing commons.apache), and tested/verified for valid HTTP(tcp 80) establishment. When a message response contains data in the attachments field, it's value becomes 1, and the listener will search for that indicator, and proceed to extract the attachment data into the programs cache. The attachment then extracts the backend discord upload, and passed as a link through the final message. The listeners are also setup to handle comments and multiple objects simultaneously, but you may be rate limited by your api keys subscription.
 
 &nbsp;&nbsp;&nbsp;&nbsp; 
-Once Discord-Bot-Automated-Link-File-Scanner detects a link or URL, it deletes the initial user's message, to protect server members from phishing attempts, or malicious links, and very quickly ( time =< 1s) creates an embedded message with:
+Once Discord-Bot-Automated-Link-File-Scanner detects a link or URL, it deletes the user's initial message, to protect server members from phishing attempts, or malicious links  very quickly ( time =< 1s), and then resubmits it as an informative embedded message that includes:
 + A link to the integrity report (the title is clickable)
 + A link to the original scanned object.
 + The original users comment/messsage accompanying the object.
@@ -33,7 +33,7 @@ The solution isn't a primary solution or defense, but it does provide some mitig
 
 ## Abstract:
 &nbsp;&nbsp;&nbsp;&nbsp; 
-The idea came from visiting a public crypto discord server. I had posted a link to a book I was reading on chart analyses and trading strategies, and instantly a causcious user yelled "DO NOT CLICK THE LINK", which makes sense from a security perspective, because there could be malware creating backdoor and loggers to siphon crypto wallets, and that's a reasonable precaution. However I was just trying to spread the knowledge. I posted my virustotal scan, and realized that it would be nice possibly for large public servers (especially those over 20,000 members) to have this process automated to protect their server members from the pervasive threats of script kiddies and phishing.
+The idea came from visiting a public crypto discord server. I had posted a link to a book I was reading on chart analyses and trading strategies, and instantly a causcious user yelled "DO NOT CLICK THE LINK", which makes sense from a security perspective, because there could be malware creating backdoor and loggers to siphon crypto wallets, and that's a reasonable precaution. However I was just trying to spread the knowledge. I posted my virustotal scan, and realized that it would be nice possibly for large public servers (especially those with thousands of members) to have this process automated to protect their server members from the pervasive threats of script kiddies and phishing.
 
 ## Prerequisites:
 ```
